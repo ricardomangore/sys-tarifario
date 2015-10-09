@@ -139,7 +139,8 @@ class Recargo_Maritimo extends CI_Model{
 		$this->db->from('rel_flete_maritimo_recargo_maritimo');
 		$this->db->where('idrecargo_maritimo', $idrecargo_maritimo);
 		$query_rel = $this->db->get();
-		if(empty($query_rel->result_array())){
+		$result_rel = $query_rel->result_array();
+		if(empty($result_rel)){
 			$this->db->trans_start();
 				$this->db->select('*');
 				$this->db->from('recargo_maritimo');
