@@ -37,7 +37,8 @@ class Naviera extends CI_Model{
 						  ->where('idnaviera',$idnaviera)
 						  ->get('naviera');
 		$result = $query->result_array();
-		if(empty($query->result_array())){
+		$result = $query->result_array();
+		if(empty($result)){
 			throw new Exception('Error', 1071);
 		}
 		else

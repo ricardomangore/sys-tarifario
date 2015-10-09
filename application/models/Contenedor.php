@@ -27,7 +27,6 @@ class Contenedor extends CI_Model{
 				'volumen' => $volumen
 			));
 			$idcarga = $this->db->insert_id();
-			var_dump($idcarga);
 			if(!$this->db->insert('contenedor', array(
 				'idcarga' => $idcarga,
 				'pies'	=> $pies,

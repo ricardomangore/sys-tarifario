@@ -84,7 +84,8 @@ class Recargo_Maritimo extends CI_Model{
 		$this->db->join('naviera', 'naviera.idnaviera = recargo_maritimo.idnaviera', 'left');
 		$this->db->where('recargo_maritimo.idrecargo_maritimo = ' . $id_recargo_maritimo);
 		$query = $this->db->get();
-		if(empty($query->result_array()))
+		$result = $query->result_array();
+		if(empty($result))
 			throw new Exception('Error', 1082);
 		else	
 			return $query->result_array();

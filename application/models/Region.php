@@ -37,7 +37,7 @@ class Region extends CI_Model{
 						  ->where('idregion',$idregion)
 						  ->get('region');
 		$result = $query->result_array();
-		if(empty($query->result_array())){
+		if(empty($result)){
 			throw new Exception('Error', 1031);
 		}
 		else

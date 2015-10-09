@@ -37,7 +37,7 @@ class Aerolinea extends CI_Model{
 						  ->where('idaerolinea',$idaerolinea)
 						  ->get('aerolinea');
 		$result = $query->result_array();
-		if(empty($query->result_array())){
+		if(empty($result)){
 			throw new Exception('Error', 1041);
 		}
 		else

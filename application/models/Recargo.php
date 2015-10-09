@@ -50,8 +50,9 @@ class Recargo extends CI_Model{
 	public function get_list_recargos(){
 		$this->db->select('*');
 		$this->db->from('recargo');
-		$query = $this->db->get();		
-		if(empty($query->result_array()))//Si esta el arreglo esta vacio el usuario NO existe
+		$query = $this->db->get();
+		$result = $query->result_array();	
+		if(empty($result))//Si esta el arreglo esta vacio el usuario NO existe
 			return FALSE;
 		else
 			return $query->result_array(); 
