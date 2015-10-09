@@ -139,7 +139,8 @@ class Recargo_Aereo extends CI_Model{
 		$this->db->from('rel_flete_aereo_recargo_aereo');
 		$this->db->where('idrecargo_aereo', $idrecargo_aereo);
 		$query_rel = $this->db->get();
-		if(empty($query_rel->result_array())){
+		$result_rel = $query_rel->result_array();
+		if(empty($result_rel)){
 			$this->db->trans_start();
 				$this->db->select('*');
 				$this->db->from('recargo_aereo');
