@@ -164,7 +164,8 @@ class Flete_Aereo extends CI_Model{
 		$this->db->join('aerolinea', 'aerolinea.idaerolinea = recargo_aereo.idaerolinea', 'left');
 		$this->db->where('recargo_aereo.idrecargo_aereo = ' . $id_recargo_aereo);
 		$query = $this->db->get();
-		if(empty($query->result_array()))
+		$result  = $query->result_array();
+		if(empty($result))
 			throw new Exception('Error', 1052);
 		else	
 			return $query->result_array();
