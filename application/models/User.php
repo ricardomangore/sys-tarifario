@@ -40,7 +40,7 @@ class User extends CI_Model{
 						  ->where('id_user',$iduser)
 						  ->get('opx_user');
 		$result = $query->result_array();
-		if(empty($query->result_array())){
+		if(empty($result)){
 			throw new Exception('Error', 1002);
 		}
 		else
@@ -62,7 +62,8 @@ class User extends CI_Model{
 			$this->db->where('user',$user);
 			$this->db->where('password',$password);
 			$query = $this->db->get();
-			if(empty($query->result_array()))
+			$result = $query->result_array();
+			if(empty($result))
 				throw new Exception('Error', 1003);
 			else
 				return $query->result_array();
