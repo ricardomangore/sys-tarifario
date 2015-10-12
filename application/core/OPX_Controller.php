@@ -21,7 +21,9 @@ class OPX_Controller extends CI_Controller{
 		$this->load->library('session');
 		$this->load->helper('security');
 		$this->load->library('form_validation');
+		$this->form_validation->set_error_delimiters('<p class="text-danger">','<p>');
 		$this->config->load('opusx');
+		$this->config->load('form_validation');
 		$this->load->database();
 		//Cargamos el archivo de lenguaje
 		$this->lang->load('message','spanish');

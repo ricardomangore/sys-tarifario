@@ -151,59 +151,83 @@ class Flete_Aereo extends CI_Model{
 	}
 	
 	/**
-	 * get_recargo_aereo_by_id()
+	 * get_flete_aereo_by_id()
 	 * 
-	 * Retorna el un registro de un recargo aereo dado un ID de la tabla recargo_aereo
+	 * Retorna el un registro de un flete aereo dado un ID de la tabla flete_aereo
 	 * 
-	 * @param	INT		Identificador del recargo aereo
+	 * @param	INT		Identificador del flete aereo
 	 */
-	public function get_recargo_aereo_by_id($id_recargo_aereo){
-		$this->db->select('*');
-		$this->db->from('recargo_aereo');
-		$this->db->join('recargo','recargo.idrecargo = recargo_aereo.idrecargo','left');
-		$this->db->join('aerolinea', 'aerolinea.idaerolinea = recargo_aereo.idaerolinea', 'left');
-		$this->db->where('recargo_aereo.idrecargo_aereo = ' . $id_recargo_aereo);
-		$query = $this->db->get();
-		$result  = $query->result_array();
-		if(empty($result))
-			throw new Exception('Error', 1052);
-		else	
-			return $query->result_array();
-	}
-	
-	/**
-	 * update_recargo_aereo
-	 * 
-	 * Actualiza un registro de recargo aereo y de la tabla recargo
-	 * 
-	 * @param array		params    Arreglo que contienen lo snuevo svalores de los campos a actulizar 
-	 */
-	public function update_recargo_aereo($recargo_aereo = null){
-		extract($recargo_aereo);
+	public function get_flete_aereo_by_id($id_flete_aereo){
 		$this->db->trans_start();
-			$this->db->set('idaerolinea', $idaerolinea);
-			$this->db->where('idrecargo_aereo', $idrecargo_aereo);
-			$this->db->update('recargo_aereo');
-					
 			$this->db->select('*');
-			$this->db->from('recargo_aereo');
-			$this->db->where('idrecargo_aereo', $idrecargo_aereo);
-			$query = $this->db->get();
-			$result = $query->result_array();	
-
-			$this->db->set('clave',$clave);
-			$this->db->set('descripcion',$descripcion);
-			$this->db->set('costo',$costo);
-			$this->db->where('idrecargo', $result[0]['idrecargo']);
-			$this->db->update('recargo');
+			$this->db->from('flete_aereo');
+			$this->db->join('region','flete_aereo.idregion = region.idregion','left');
+			$this->db->where('flete_aereo.idflete_aereo',$id_flete_aereo);
+			$query_flete_aereo = $this->db->get();
+			$flete_aereo = $query_flete_aereo->result_array();
+			
+			
+			
+			$this->db->select('*');
+			$this->db->from('aeropuerto');
+			$this->db->where('idaeropuerto',$flete_aereo[0]['aol']);
+			$query_aol = $this->db->get();
+			$aol = $query_aol->result_array();
+			
+			$this->db->select('*');
+			$this->db->from('aeropuerto');
+			$this->db->where('idaeropuerto',$flete_aereo[0]['aod']);
+			$query_aol = $this->db->get();
+			$aod = $query_aol->result_array();
+			
+			$this->db->select('aeropuerto.idaeropuerto,aeropuerto.code,aeropuerto.pais,aeropuerto.ciudad,aeropuerto.aeropuerto');
+			$this->db->from('via2');
+			$this->db->join('aeropuerto','via2.idaeropuerto=aeropuerto.idaeropuerto','left');
+			$this->db->where('idflete_aereo',$id_flete_aereo);
+			$query_via = $this->db->get();
+			$via = $query_via->result_array();
+			
+			$this->db->select('*');
+			$this->db->from('intervalo');
+			$this->db->where('idflete_aereo',$id_flete_aereo);
+			$query_precios = $this->db->get();
+			$precios = $query_precios->result_array();
+			
+			$this->db->select('recargo_aereo.idrecargo_aereo, aerolinea.aerolinea,recargo.clave,recargo.descripcion,recargo.costo');
+			$this->db->from('rel_flete_aereo_recargo_aereo');
+			$this->db->join('recargo_aereo','rel_flete_aereo_recargo_aereo.idrecargo_aereo = recargo_aereo.idrecargo_aereo','left');
+			$this->db->join('recargo','recargo_aereo.idrecargo = recargo.idrecargo','left');
+			$this->db->join('aerolinea','recargo_aereo.idaerolinea = aerolinea.idaerolinea','left');
+			$this->db->where('rel_flete_aereo_recargo_aereo.idflete_aereo',$id_flete_aereo);
+			$query_recargos = $this->db->get();
+			$recargos = $query_recargos->result_array();
+			
 		$this->db->trans_complete();
 		if($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();
-			throw new Exception('Error', 1053);
+			throw new Exception('Error',1062);
 		}else{
 			$this->db->trans_commit();
-			return TRUE;
-		}	
+			return array(
+				'flete_aereo' => $flete_aereo,
+				'aol' => $aol,
+				'aod' => $aod,
+				'via' => $via,
+				'precios' => $precios,
+				'recargos' => $recargos
+			);
+		}
+	}
+	
+	/**
+	 * update_flete_aereo
+	 * 
+	 * Actualiza un registro de flete aereo y de la tabla flete_aereo
+	 * 
+	 * @param array		params    Arreglo que contienen los nuevos valores de los campos a actulizar 
+	 */
+	public function update_flete_aereo($flete_aereo = null){
+		extract($flete_areo);
 	}
 	
 	/**
