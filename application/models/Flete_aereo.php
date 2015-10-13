@@ -26,6 +26,7 @@ class Flete_Aereo extends CI_Model{
 	 * 							'precios' array()	Arreglo con la lsita de precion por rango ofrececidos por la aerolínea
 	 */
 	public function set_flete_aereo( $data ){
+		var_dump($data);
 		extract($data);
 		$this->db->trans_start();
 
@@ -38,6 +39,7 @@ class Flete_Aereo extends CI_Model{
 				'vigencia'=> $vigencia,
 				'minimo' => $minimo,
 				'normal' => $normal,
+				'profit' => $profit
 			);
 			$this->db->insert('flete_aereo', $flete_aereo );
 			$idflete_aereo = $this->db->insert_id();
@@ -46,7 +48,8 @@ class Flete_Aereo extends CI_Model{
 					'idflete_aereo' => $idflete_aereo,
 					'precio' => $intervalo['precio'],
 					'min'	 => $intervalo['min'],
-					'max'    => $intervalo['max']
+					'max'    => $intervalo['max'],
+					'profit' => $intervalo['profit']
 				));
 			}
 			if($has_via)
@@ -85,7 +88,7 @@ class Flete_Aereo extends CI_Model{
 		$this->db->trans_start();
 			if(isset($param))
 				extract($param);
-			$this->db->select('idflete_aereo,via,aol,aod,region.idregion,region.region, aerolinea.idaerolinea, aerolinea.aerolinea, vigencia,minimo,normal');
+			$this->db->select('idflete_aereo,via,aol,aod,region.idregion,region.region, aerolinea.idaerolinea, aerolinea.aerolinea, vigencia,minimo,normal,profit');
 			$this->db->from('flete_aereo');
 			$this->db->join('region','flete_aereo.idregion = region.idregion','left');
 			$this->db->join('aerolinea','flete_aereo.idaerolinea = aerolinea.idaerolinea', 'left');
@@ -118,7 +121,7 @@ class Flete_Aereo extends CI_Model{
 				$query_via = $this->db->get();
 				$query_via->result_array();	
 				
-				$this->db->select('min,max,precio');
+				$this->db->select('min,max,precio,profit');
 				$this->db->from('intervalo');
 				$this->db->where('idflete_aereo', $flete_aereo_row['idflete_aereo']);	
 				$query_precios = $this->db->get();

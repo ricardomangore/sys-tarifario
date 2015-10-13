@@ -11,8 +11,11 @@ $(document).ready(function() {
     $('.select_via').selectpicker();
     $('.select_naviera').selectpicker();
     $('.select_contenedor').selectpicker();
-    
-    $('[name=chkbox_via]').change(function(event){
+   	$btnRdDirecto = $('#radioDirecto');
+   	$btnRdEscalas = $('#radioEscalas');
+
+ 
+    /*$('[name=chkbox_via]').change(function(event){
     	var value = $(this).val();
     	if(value == 'directo'){
     		$('.select_via').prop('disabled',true);
@@ -21,9 +24,8 @@ $(document).ready(function() {
     	if(value == 'escalas'){
 			$('.select_via').prop('disabled',false);
 			$('.select_via').selectpicker('refresh');
-    	}
-    	
-    });
+    	}	
+    });*/
     
     $('[name=chkbox_carga]').change(function(event){
     	var value = $(this).val();

@@ -132,19 +132,10 @@ class CTRL_Flete_Aereo extends OPX_Controller{
 		else	
 			$has_recargos = TRUE;
 		//Se validan los valores
-		/*$this->form_validation->set_rules('idaerolinea', 'IDAerolinea', 'callback_idaerolinea_check');
-		$this->form_validation->set_rules('idregion', 'IDregion', 'callback_idregion_check');
-		$this->form_validation->set_rules('aol', 'aol', 'callback_aol_check');
-		$this->form_validation->set_rules('aod', 'aod', 'callback_aod_check');
-		$this->form_validation->set_rules('vigencia', 'Vigencia', 'required');
-		$this->form_validation->set_rules('minimo','Minimo','required');
-		$this->form_validation->set_rules('normal','Normal','required');
-		$this->form_validation->set_rules('profit_base','Profit Base','required');
-		if($via_bool)
-			$this->form_validation->set_rules('idvias','Via','required');*/
-
-		
-		if($this->form_validation->run() == FALSE){//Los valores no pasaron el test de validación
+		/*if($via_bool)
+			$this->form_validation->set_rules('idvias','Via','callback_via_check'); */ 
+		$this->form_validation->set_message('required', 'Indique un valor para {field}');
+		if($this->form_validation->run() === FALSE){//Los valores no pasaron el test de validación
 			$data_dashboard['content_dashboard'] = $this->load->view('flete_aereo/add_form',$data_flete_aereo_form,TRUE);
 		}else{//Los valores aprobaron el test de validación
 			$flete_aereo = array(
@@ -182,7 +173,7 @@ class CTRL_Flete_Aereo extends OPX_Controller{
 	 * Controlador para editar un registro de Aeropuerto
 	 */
 	public function edit($idrecargo_aereo = 0){
-$data_sidebar = array(
+		$data_sidebar = array(
 			'item_menu_dashboard' => '',
 			'item_menu_fletes_maritimos' => '',
 			'item_menu_fletes_aereos' => 'active',
@@ -193,6 +184,33 @@ $data_sidebar = array(
 		$data_dashboard['sidebar'] = $this->load->view('system/sidebar',$data_sidebar,TRUE);		
 		$data_dashboard['icon_title'] = 'plane';
 		$data_dashboard['header_dashboard'] = 'Flete Aéreo';
+		//Obtienen los datos del registro solicitado
+		try{
+			$result = $this->flete_aereo->get_flete_aereo_by_id($idrecargo_aereo);
+			$data_flete_aereo_form['idregion'] = $result['flete_aereo'][0]['idregion'];
+			$data_flete_aereo_form['idaerolinea'] = $result['flete_aereo'][0]['idaerolinea'];
+			$data_flete_aereo_form['aol'] = $result['aol'][0]['idaeropuerto'];
+			$data_flete_aereo_form['aod'] = $result['aod'][0]['idaeropuerto'];
+			$data_flete_aereo_form['has_via'] = $result['flete_aereo'][0]['via'];
+			$data_flete_aereo_form['via'] = $result['via'];
+			$data_flete_aereo_form['recargos'] = $result['recargos'];
+			$data_flete_aereo_form['vigencia'] = $result['flete_aereo'][0]['vigencia'];
+			$data_flete_aereo_form['minimo'] = $result['flete_aereo'][0]['minimo'];
+			$data_flete_aereo_form['normal'] = $result['flete_aereo'][0]['normal'];
+			$data_flete_aereo_form['profit_base'] = $result['flete_aereo'][0]['profit'];
+       		$data_flete_aereo_form['precio1'] = $result['precios'][0]['precio'];
+			$data_flete_aereo_form['profit45'] = $result['precios'][0]['profit'];
+			$data_flete_aereo_form['precio2'] = $result['precios'][1]['precio'];
+			$data_flete_aereo_form['profit100'] = $result['precios'][1]['profit'];
+			$data_flete_aereo_form['precio3'] = $result['precios'][2]['precio'];
+			$data_flete_aereo_form['profit300'] = $result['precios'][2]['profit'];
+			$data_flete_aereo_form['precio5'] = $result['precios'][3]['precio'];
+			$data_flete_aereo_form['profit500'] = $result['precios'][3]['profit'];
+			$data_flete_aereo_form['precio4'] = $result['precios'][4]['precio'];
+			$data_flete_aereo_form['profit1000'] = $result['precios'][4]['profit'];
+		}catch(Exception $e){
+			$data_flete_aereo_form['rows'] = NULL;
+		}
 		//Obtiene los valores de la tabla
 		try{
 			$data_flete_aereo_form['rows'] = $this->flete_aereo->get_fletes_aereos(); 
@@ -236,55 +254,62 @@ $data_sidebar = array(
 		$vigencia = xss_clean($this->input->post('vigencia'));
 		$minimo = xss_clean($this->input->post('minimo'));
 		$normal = xss_clean($this->input->post('normal'));
+		$profit_base = xss_clean($this->input->post('profit_base'));
 		$precio1 = xss_clean($this->input->post('precio1'));
 		$precio2 = xss_clean($this->input->post('precio2'));
 		$precio3 = xss_clean($this->input->post('precio3'));
 		$precio4 = xss_clean($this->input->post('precio4'));
 		$precio5 = xss_clean($this->input->post('precio5'));
+		$profit45 = xss_clean($this->input->post('profit45'));
+		$profit100 = xss_clean($this->input->post('profit100'));
+		$profit300 = xss_clean($this->input->post('profit300'));
+		$profit500 = xss_clean($this->input->post('profit500'));
+		$profit1000 = xss_clean($this->input->post('profit1000'));		
 		$precios = array();
 		if(isset($precio1))
 			array_push($precios,array(
 				'min' => 45,
 				'max' => 99,
-				'precio' => $precio1
+				'precio' => $precio1,
+				'profit' => $profit45,
 			));
 		if(isset($precio2))
 			array_push($precios,array(
 				'min' => 100,
 				'max' => 299,
-				'precio' => $precio2
+				'precio' => $precio2,
+				'profit' => $profit100
 			));
 		if(isset($precio3))
 			array_push($precios,array(
 				'min' => 300,
 				'max' => 499,
-				'precio' => $precio3
+				'precio' => $precio3,
+				'profit' => $profit300
 			));
 		if(isset($precio4))
 			array_push($precios,array(
 				'min' => 500,
 				'max' => 999,
-				'precio' => $precio4
+				'precio' => $precio4,
+				'profit' => $profit100
 			));
 		if(isset($precio5))
 			array_push($precios,array(
 				'min' => 1000,
 				'max' => 1000000,
-				'precio' => $precio5
+				'precio' => $precio5,
+				'profit' => $profit1000
 			));											
 		if(empty($idrecargos))
 			$has_recargos = FALSE;
 		else	
 			$has_recargos = TRUE;
 		//Se validan los valores
-		$this->form_validation->set_rules('idaerolinea', 'IDAerolinea', 'callback_idaerolinea_check');
-		$this->form_validation->set_rules('idregion', 'IDregion', 'callback_idregion_check');
-		$this->form_validation->set_rules('aol', 'aol', 'callback_aol_check');
-		$this->form_validation->set_rules('aod', 'aod', 'callback_aod_check');
-		$this->form_validation->set_rules('vigencia', 'Vigencia', 'required');
-		
-		
-		if($this->form_validation->run() == FALSE){//Los valores no pasaron el test de validación
+		/*if($via_bool)
+			$this->form_validation->set_rules('idvias','Via','callback_via_check'); */ 
+		$this->form_validation->set_message('required', 'Indique un valor para {field}');
+		if($this->form_validation->run() === FALSE){//Los valores no pasaron el test de validación
 			$data_dashboard['content_dashboard'] = $this->load->view('flete_aereo/edit_form',$data_flete_aereo_form,TRUE);
 		}else{//Los valores aprobaron el test de validación
 			$flete_aereo = array(
@@ -295,12 +320,12 @@ $data_sidebar = array(
 				'vigencia' => $vigencia,
 				'minimo' => $minimo,
 				'normal' => $normal,
+				'profit' => $profit_base,
 				'has_via' => $via_bool,
 				'vias' => $idvias,
 				'intervalos' => $precios,
 				'has_recargos' => $has_recargos,
 				'recargos' => $idrecargos
-				
 			);
 			try{
 				$this->flete_aereo->set_flete_aereo($flete_aereo);
@@ -434,6 +459,18 @@ $data_sidebar = array(
 		}else{
 			return TRUE;			
 		}
-	}	
+	}
+	
+	/**
+	 * callback_via
+	 */	
+	public function via_check($param){
+		if(isset($param)){
+			return TRUE;
+		}else{
+			$this->form_validation->set_message('via_check','Seleccione una escala');
+			return FALSE;
+		}
+	}
 		
 }

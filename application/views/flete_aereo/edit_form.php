@@ -1,3 +1,6 @@
+<?php
+ var_dump($via);
+?>
 <div class="row">
 	<ul class="nav nav-pills">
 	  <li role="presentation"><a href="<?php echo base_url();?>addflete_aereo"><i class="fa fa-plus-square"></i> Agregar</a></li>
@@ -9,150 +12,247 @@
 	<div style="height:20px;"></div>
 	<div class="panel panel-default">
 		<div style="height:20px;"></div>
-		<div class="row">
-			<div class="col-sm-4 col-sm-offset-2">
-			<?php echo validation_errors('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ','</div>'); ?>
-			</div>
-		</div>
-		<form class="form-horizontal" method="POST" action="<?php echo base_url();?>addflete_aereo">		
-
+		<form class="form-horizontal" method="POST" action="<?php echo base_url();?>editflete_aereo" name="add_fletes_aereos_form">		
+		
 		  <div class="form-group">
-		  	<label for="destino" class="col-sm-2 control-label">Origen</label>
-		  	<div class="col-sm-2 <?php if(form_error('aol')!='') echo 'has-error';?>">
-			  	<select class="select_origen" data-live-search="true" name="aol">
-					<option value="none">Seleccione un Origen</option>			  	
-			  		<?php foreach($aeropuertos as $aeropuerto): ?>
-			  			<option value="<?php echo $aeropuerto['idaeropuerto']?>"><?php echo $aeropuerto['code'] .' '. $aeropuerto['aeropuerto'];?></option>
-			  		<?php endforeach; ?>
-			  	</select>
-			</div>
-		  	<label for="destino" class="col-sm-1 control-label">Destino</label>
-		  	<div class="col-sm-2 <?php if(form_error('aod')!='') echo 'has-error';?>">
-			  	<select class="select_destino" data-live-search="true" name="aod">
-			  		<option value="none">Seleccione un Destino</option>
-			  		<?php foreach($aeropuertos as $aeropuerto): ?>
-			  			<option value="<?php echo $aeropuerto['idaeropuerto']?>"><?php echo $aeropuerto['code'] .' '. $aeropuerto['aeropuerto'];?></option>
-			  		<?php endforeach; ?>
-			  	</select>
-			</div>			
-		  </div>
-
-		  <div class="form-group">
-		    <label for="aeropuerto" class="col-sm-2 control-label">Aerolínea</label>
-		    <div class="col-sm-2 <?php if(form_error('idaerolinea')!='') echo 'has-error';?>">
-		      <select class="select_aerolinea" data-live-search='true' name="idaerolinea">
-		      	<option value="none">Seleccione una aerolínea</option>
-		      	<?php foreach($aerolineas as $aerolinea):?>
-		      		<option value="<?php echo $aerolinea['idaerolinea'];?>" <?php echo set_select('idaerolinea',$aerolinea['idaerolinea']); ?>><?php echo $aerolinea['aerolinea'];?></option>
-		    	<?php endforeach; ?>
-		      </select>
-		    </div>
-		  	<label for="recargos" class="col-sm-1 control-label">Recargos</label>
-		  	<div class="col-sm-2">
-			  	<select class="select_recargos" data-live-search="true" name="idrecargos[]" multiple>
-			  		<option value="none">Seleccione los recargos</option>
-			  		<?php foreach($recargos as $recargo): ?>
-			  			<option value="<?php echo $recargo['idrecargo_aereo']?>"><?php echo $recargo['clave'] .' '. $recargo['costo'] .' '. $recargo['aerolinea'];?></option>
-			  		<?php endforeach; ?>
-			  	</select>
-			</div>
-		  	<label for="recargos" class="col-sm-1 control-label">Región</label>
+		  	<label for="recargos" class="col-sm-2 control-label">* Región</label>
 		  	<div class="col-sm-2 <?php if(form_error('idregion')!='') echo 'has-error';?>">
 			  	<select class="select_region" data-live-search="true" name="idregion">
 			  		<option value="none">Seleccione una Región</option>
 			  		<?php foreach($regiones as $region): ?>
-			  			<option value="<?php echo $region['idregion']?>"><?php echo $region['region'];?></option>
+			  			<?php if($region['idregion'] == $idregion): ?>
+			  				<option value="<?php echo $region['idregion']?>" <?php echo set_select('idregion',$region['idregion']);?> selected="selected"><?php echo $region['region'];?></option>
+			  			<?php else: ?>
+			  				<option value="<?php echo $region['idregion']?>" <?php echo set_select('idregion',$region['idregion']);?>><?php echo $region['region'];?></option>
+			  			<?php endif; ?>
 			  		<?php endforeach; ?>
 			  	</select>
-			</div>		    
-		  </div>		  
+			  	<?php echo form_error('idregion'); ?>
+			</div>		  
+		    <label for="aeropuerto" class="col-sm-1 control-label">* Aerolínea</label>
+		    <div class="col-sm-2 <?php if(form_error('idaerolinea')!='') echo 'has-error';?>">
+		      <select class="select_aerolinea" data-live-search='true' name="idaerolinea">
+		      	<option value="none">Seleccione una aerolínea</option>
+		      	<?php foreach($aerolineas as $aerolinea):?>
+		      		<?php if($aerolinea['idaerolinea'] == $idaerolinea): ?>
+		      			<option value="<?php echo $aerolinea['idaerolinea'];?>" <?php echo set_select('idaerolinea',$aerolinea['idaerolinea']); ?> selected="selected"><?php echo $aerolinea['aerolinea'];?></option>
+		      		<?php else: ?>
+		      			<option value="<?php echo $aerolinea['idaerolinea'];?>" <?php echo set_select('idaerolinea',$aerolinea['idaerolinea']); ?>><?php echo $aerolinea['aerolinea'];?></option>
+		      		<?php endif; ?>
+		    	<?php endforeach; ?>
+		      </select>
+		      <?php echo form_error('idaerolinea'); ?>
+		    </div>	    
+		  </div>
 		  
 		  <div class="form-group">
-				<label class="control-label col-sm-3">
-				  <input type="radio" name="chkbox_via" id="inlineRadio1" value="directo" checked> Directo
-				</label>
-				<label class="control-label col-sm-2">
-				  <input type="radio" name="chkbox_via" id="inlineRadio2" value="escalas"> Con Escalas
-				</label>
+		  	<label for="destino" class="col-sm-2 control-label">* Origen</label>
+		  	<div class="col-sm-2 <?php if(form_error('aol')!='') echo 'has-error';?>">
+			  	<select class="select_origen" data-live-search="true" name="aol">
+					<option value="none">Seleccione un Origen</option>			  	
+			  		<?php foreach($aeropuertos as $aeropuerto): ?>
+			  			<?php if($aeropuerto['idaeropuerto'] == $aol): ?>
+			  				<option value="<?php echo $aeropuerto['idaeropuerto']?>" <?php echo set_select('aol',$aeropuerto['idaeropuerto']);?> selected="selected"><?php echo $aeropuerto['code'] .' '. $aeropuerto['aeropuerto'];?></option>
+			  			<?php else: ?>
+			  				<option value="<?php echo $aeropuerto['idaeropuerto']?>" <?php echo set_select('aol',$aeropuerto['idaeropuerto']);?>><?php echo $aeropuerto['code'] .' '. $aeropuerto['aeropuerto'];?></option>
+			  			<?php endif; ?>
+			  		<?php endforeach; ?>
+			  	</select>
+			  	<?php echo form_error('aol'); ?>
+			</div>
+		  	<label for="destino" class="col-sm-1 control-label">* Destino</label>
+		  	<div class="col-sm-2 <?php if(form_error('aod')!='') echo 'has-error';?>">
+			  	<select class="select_destino" data-live-search="true" name="aod">
+			  		<option value="none">Seleccione un Destino</option>
+			  		<?php foreach($aeropuertos as $aeropuerto): ?>
+			  			<?php if($aeropuerto['idaeropuerto'] == $aod): ?>
+			  				<option value="<?php echo $aeropuerto['idaeropuerto']?>" <?php echo set_select('aol',$aeropuerto['idaeropuerto']);?> selected="selected"><?php echo $aeropuerto['code'] .' '. $aeropuerto['aeropuerto'];?></option>
+			  			<?php else: ?>
+			  				<option value="<?php echo $aeropuerto['idaeropuerto']?>" <?php echo set_select('aol',$aeropuerto['idaeropuerto']);?>><?php echo $aeropuerto['code'] .' '. $aeropuerto['aeropuerto'];?></option>
+			  			<?php endif; ?>
+			  		<?php endforeach; ?>
+			  	</select>
+			  	<?php echo form_error('aod'); ?>
+			</div>			
+		  </div> 
+		  
+		  <div class="form-group">
+		  		<?php if(isset($has_via)): ?>
+		  			<?php if($has_via): ?>
+						<label class="control-label col-sm-3">
+						  <input type="radio" name="chkbox_via" id="radioDirecto" value="directo" <?php echo set_radio('chkbox_via','directo');?>> Directo
+						</label>
+						<label class="control-label col-sm-1">
+						  <input type="radio" name="chkbox_via" id="radioEscalas" value="escalas" <?php echo set_radio('chkbox_via','escalas');?> checked> Escalas
+						</label>
+					<?php else: ?>
+						<label class="control-label col-sm-3">
+						  <input type="radio" name="chkbox_via" id="radioDirecto" value="directo" <?php echo set_radio('chkbox_via','directo');?> checked> Directo
+						</label>
+						<label class="control-label col-sm-1">
+						  <input type="radio" name="chkbox_via" id="radioEscalas" value="escalas" <?php echo set_radio('chkbox_via','escalas');?>> Escalas
+						</label>					
+					<?php endif; ?>
+				<?php else: ?>
+					<label class="control-label col-sm-3">
+					  <input type="radio" name="chkbox_via" id="radioDirecto" value="directo" <?php echo set_radio('chkbox_via','directo');?> checked> Directo
+					</label>
+					<label class="control-label col-sm-1">
+					  <input type="radio" name="chkbox_via" id="radioEscalas" value="escalas" <?php echo set_radio('chkbox_via','escalas');?>> Escalas
+					</label>				
+				<?php endif; ?>
 			  	<label for="destino" class="col-sm-1 control-label">Via</label>
-			  	<div class="col-sm-2">
-				  	<select class="select_via" data-live-search="true" name="idvias[]" multiple disabled>
+			  	<div class="col-sm-2  <?php if(form_error('idvias')!='') echo 'has-error';?>">
+				  	<select class="select_via" data-live-search="true" name="idvias[]" multiple>
 				  		<option value="none">Seleccione los transbordos</option>
-				  		<?php foreach($aeropuertos as $aeropuerto): ?>
-				  			<option value="<?php echo $aeropuerto['idaeropuerto']?>"><?php echo $aeropuerto['code'] .' '. $aeropuerto['aeropuerto'];?></option>
-				  		<?php endforeach; ?>
+				  		<?php 
+				  			$idvia_array =array();
+				  			foreach($via as $value){
+				  				array_push($idvia_array,$value['idaeropuerto']);
+				  			}
+				  		?>
+				  		<?php if(isset($via)): ?>
+					  		<?php foreach($aeropuertos as $aeropuerto):?>
+					  			<?php if(in_array($aeropuerto['idaeropuerto'], $idvia_array)): ?>
+					  				<option value="<?php echo $aeropuerto['idaeropuerto']?>" <?php echo set_select('idvias[]',$aeropuerto['idaeropuerto']);?> selected="selected"><?php echo $aeropuerto['code'] .' '. $aeropuerto['aeropuerto'];?></option>
+					  			<?php else: ?>
+					  				<option value="<?php echo $aeropuerto['idaeropuerto']?>" <?php echo set_select('idvias[]',$aeropuerto['idaeropuerto']);?>><?php echo $aeropuerto['code'] .' '. $aeropuerto['aeropuerto'];?></option>
+					  			<?php endif; ?>
+					  		<?php endforeach; ?>				  		
+				  		<?php else: ?>				  		
+					  		<?php foreach($aeropuertos as $aeropuerto):?>
+					  			<option value="<?php echo $aeropuerto['idaeropuerto']?>" <?php echo set_select('idvias[]',$aeropuerto['idaeropuerto']);?> selected="selected"><?php echo $aeropuerto['code'] .' '. $aeropuerto['aeropuerto'];?></option>
+					  		<?php endforeach; ?>
+					  	<?php endif; ?>
 				  	</select>
 				</div>				
 		  </div>		  
 
 
-
 		  <div class="form-group">
-		  	<label for="vigencia" class="col-sm-2 control-label">Vigencia</label>
+		  	<label for="recargos" class="col-sm-2 control-label">Recargos</label>
+		  	<div class="col-sm-2">
+			  	<select class="select_recargos" data-live-search="true" name="idrecargos[]" multiple>
+			  		<option value="none">Seleccione los recargos</option>
+			  		<?php foreach($recargos as $recargo): ?>
+			  			<option value="<?php echo $recargo['idrecargo_aereo']?>" <?php echo set_select('idrecargos[]',$recargo['idrecargo_aereo']);?>><?php echo $recargo['clave'] .' '. $recargo['costo'] .' '. $recargo['aerolinea'];?></option>
+			  		<?php endforeach; ?>
+			  	</select>
+			</div>
+			<label for="vigencia" class="col-sm-1 control-label">* Vigencia</label>
 		  	<div class="col-sm-2 <?php if(form_error('vigencia')!='') echo 'has-error';?>">
-				<input type="text" name="vigencia" class="form-control">
-			</div>
-		  	<label for="minimo" class="col-sm-1 control-label">Mínimo</label>
-		  	<div class="col-sm-2">
-		  		<div class="input-group">
-		  			<div class="input-group-addon">$</div>
-						<input type="text" name="minimo" class="form-control">
-			    </div>
-			</div>
-		  	<label for="normal" class="col-sm-1 control-label">Normal</label>
-		  	<div class="col-sm-2">
-		  		<div class="input-group">
-		  			<div class="input-group-addon">$</div>
-						<input type="text" name="normal" class="form-control">
-			    </div>
-			</div>			
+				<input type="text" name="vigencia" class="form-control" value="<?php if(isset($vigencia)) echo $vigencia; echo set_value('vigencia'); ?>">
+				<?php echo form_error('vigencia'); ?>
+			</div>				  	
 		  </div>
-
-
-
+		  <div class="form-group">
+		  	<label for="minimo" class="col-sm-2 control-label">* Mínimo</label>
+		  	<div class="col-sm-2 <?php if(form_error('minimo')!='') echo 'has-error';?>">
+		  		<div class="input-group">
+		  			<div class="input-group-addon">$</div>
+						<input type="text" name="minimo" class="form-control" value="<?php if(isset($minimo)) echo $minimo; echo set_value('minimo'); ?>">
+			    </div>
+			    <?php echo form_error('minimo'); ?>
+			</div>
+		  	<label for="normal" class="col-sm-1 control-label">* Normal</label>
+		  	<div class="col-sm-2 <?php if(form_error('normal') != '') echo 'has-error'; ?>">
+		  		<div class="input-group">
+		  			<div class="input-group-addon">$</div>
+						<input type="text" name="normal" class="form-control" value="<?php if(isset($normal)) echo $normal; echo set_value('normal'); ?>">
+			    </div>
+			    <?php echo form_error('normal'); ?>
+			</div>	
+		  	<label for="normal" class="col-sm-1 control-label">* Profit Base</label>
+		  	<div class="col-sm-2 <?php if(form_error('profit_base')!='') echo 'has-error';?>">
+		  		<div class="input-group">
+		  			<div class="input-group-addon">$</div>
+						<input type="text" name="profit_base" class="form-control" value="<?php if(isset($profit_base)) echo $profit_base; echo set_value('profit_base'); ?>">
+			    </div>
+			    <?php echo form_error('profit_base'); ?>
+			</div>					
+		  </div>
 
 		  <div class="form-group">
 		  	<label for="precio1" class="col-sm-2 control-label">+45Kg</label>
 		  	<div class="col-sm-2 <?php if(form_error('precio1')!='') echo 'has-error';?>">
 		  		<div class="input-group">
 		  			<div class="input-group-addon">$</div>
-					<input type="text" name="precio1" class="form-control">
+					<input type="text" name="precio1" class="form-control" value="<?php if(isset($precio1)) echo $precio1; echo set_value('precio1');?>">
 				</div>
 			</div>
-		  	<label for="precio2" class="col-sm-1 control-label">+100Kg</label>
+		  	<label for="precio1" class="col-sm-1 control-label">Profit +45Kg</label>
+		  	<div class="col-sm-2 <?php if(form_error('precio1')!='') echo 'has-error';?>">
+		  		<div class="input-group">
+		  			<div class="input-group-addon">$</div>
+					<input type="text" name="profit45" class="form-control" value="<?php if(isset($profit45)) echo $profit45; echo set_value('profit45');?>">
+				</div>
+			</div>
+		  </div>
+		  
+		  <div class="form-group">			
+		  	<label for="precio2" class="col-sm-2 control-label">+100Kg</label>
 		  	<div class="col-sm-2 <?php if(form_error('precio2')!='') echo 'has-error';?>">
 		  		<div class="input-group">
 		  			<div class="input-group-addon">$</div>
-						<input type="text" name="precio2" class="form-control">
+						<input type="text" name="precio2" class="form-control" value="<?php if(isset($precio2)) echo $precio2; echo set_value('precio2');?>">
 				</div>
 			</div>	
-		  	<label for="precio3" class="col-sm-1 control-label">+300Kg</label>
+		  	<label for="precio2" class="col-sm-1 control-label">Profit +100Kg</label>
+		  	<div class="col-sm-2 <?php if(form_error('precio2')!='') echo 'has-error';?>">
+		  		<div class="input-group">
+		  			<div class="input-group-addon">$</div>
+						<input type="text" name="profit100" class="form-control" value="<?php if(isset($profit100)) echo $profit100; echo set_value('profit100');?>">
+				</div>
+			</div>
+		  </div>
+		  <div class="form-group">			
+		  	<label for="precio3" class="col-sm-2 control-label">+300Kg</label>
 		  	<div class="col-sm-2 <?php if(form_error('precio3')!='') echo 'has-error';?>">
 		  		<div class="input-group">
 		  			<div class="input-group-addon">$</div>
-						<input type="text" name="precio3" class="form-control">
+						<input type="text" name="precio3" class="form-control" value="<?php if(isset($precio3)) echo $precio3; echo set_value('precio3');?>">
 				</div>
-			</div>					
+			</div>	
+		  	<label for="precio3" class="col-sm-1 control-label">Profit +300Kg</label>
+		  	<div class="col-sm-2 <?php if(form_error('precio3')!='') echo 'has-error';?>">
+		  		<div class="input-group">
+		  			<div class="input-group-addon">$</div>
+						<input type="text" name="profit300" class="form-control" value="<?php if(isset($profit300)) echo $profit300; echo set_value('profit300');?>">
+				</div>
+			</div>							
 		  </div>
-
-
-
 
 		  <div class="form-group">
 		  	<label for="precio4" class="col-sm-2 control-label">+500Kg</label>
 		  	<div class="col-sm-2 <?php if(form_error('precio4')!='') echo 'has-error';?>">
 		  		<div class="input-group">
 		  			<div class="input-group-addon">$</div>
-						<input type="text" name="precio4" class="form-control">
+						<input type="text" name="precio4" class="form-control" value="<?php if(isset($precio4)) echo $precio4; echo set_value('precio4');?>">
 				</div>
 			</div>
-		  	<label for="precio5" class="col-sm-1 control-label">+1000Kg</label>
+		  	<label for="precio4" class="col-sm-1 control-label">Profit +500Kg</label>
+		  	<div class="col-sm-2 <?php if(form_error('precio4')!='') echo 'has-error';?>">
+		  		<div class="input-group">
+		  			<div class="input-group-addon">$</div>
+						<input type="text" name="profit500" class="form-control" value="<?php if(isset($profit500)) echo $profit500; echo set_value('profit500');?>">
+				</div>
+			</div>			
+		  </div>
+		  <div class="form-group">
+		  	<label for="precio5" class="col-sm-2 control-label">+1000Kg</label>
 		  	<div class="col-sm-2 <?php if(form_error('precio5')!='') echo 'has-error';?>">
 		  		<div class="input-group">
 		  			<div class="input-group-addon">$</div>
-						<input type="text" name="precio5" class="form-control">
+						<input type="text" name="precio5" class="form-control" value="<?php if(isset($precio5)) echo $precio5; echo set_value('precio5');?>">
 				</div>
-			</div>			
+			</div>	
+		  	<label for="precio5" class="col-sm-1 control-label">Profit +1000Kg</label>
+		  	<div class="col-sm-2 <?php if(form_error('precio5')!='') echo 'has-error';?>">
+		  		<div class="input-group">
+		  			<div class="input-group-addon">$</div>
+						<input type="text" name="profit1000" class="form-control" value="<?php if(isset($profit1000)) echo $profit1000; else echo set_value('profit1000');?>">
+				</div>
+			</div>					
 		  </div> 		  
 		  
 		  
@@ -176,40 +276,28 @@
 	<table id="opxtable" class="display table table-hover" cellspacing="0" width="100%">
 	    <thead>
 	        <tr>
-	            <th>ID</th>
 	            <th>Región</th>
 	            <th>Aerolínea</th>
 	            <th>Origen</th>
 	            <th>Destino</th>
 	            <th>Vigencia</th>
 	            <th>Via</th>
-	            <th>Mínimo</th>
-	            <th>Normal</th>
-	            <th>+45Kg</th>
-	            <th>+100Kg</th>
-	            <th>+300Kg</th>
-	            <th>+500Kg</th>
-	            <th>+1000Kg</th>
+	            <th>Tarifas Base</th>
+	            <th>Tarifas Rangos</th>
 	            <th>Recargos</th>
 	            <th>opt</th>
 	        </tr>
 	    </thead>
 	    <tfoot>
 	        <tr>
-	            <th>ID</th>
 	            <th>Región</th>
 	            <th>Aerolínea</th>
 	            <th>Origen</th>
 	            <th>Destino</th>
 	            <th>Vigencia</th>
 	            <th>Via</th>
-	            <th>Mínimo</th>
-	            <th>Normal</th>
-	            <th>+45Kg</th>
-	            <th>+100Kg</th>
-	            <th>+300Kg</th>
-	            <th>+500Kg</th>
-	            <th>+1000Kg</th>
+	            <th>Tarifas Base</th>
+	            <th>Tarifas Rangos</th>
 	            <th>Recargos</th>
 	            <th>opt</th>
 	        </tr>
@@ -218,7 +306,6 @@
 	    		<?php if($rows): ?>
 		    		<?php foreach($rows as $row): ?>
 		    			<tr>		    	
-		    				<td><?php echo $row['flete_aereo']['idflete_aereo']; ?></td>
 		    				<td><?php echo $row['flete_aereo']['region']; ?></td>
 		    				<td><?php echo $row['flete_aereo']['aerolinea']; ?></td>
 		    				<td><?php echo $row['aol']['code'] .' - '. $row['aol']['aeropuerto'];?></td>
@@ -229,19 +316,28 @@
 		    						echo $value['code'] .' '.  $value['pais']. '<br/>';	
 		    					};?>
 		    				</td>
-		    				<td><?php echo $row['flete_aereo']['minimo']; ?></td>
-		    				<td><?php echo $row['flete_aereo']['normal']; ?></td>
+		    				<td>
+		    					<p>Mínimo: <?php echo $row['flete_aereo']['minimo']; ?></p>
+		    					<p>Normal: <?php echo $row['flete_aereo']['normal']; ?></p>
+		    					<p>Profit Base: <?php echo $row['flete_aereo']['profit'];?></p>
+		    				</td>
+		    				<td>
+		    				<?php 
+		    					$rangos = array('+45 Kg','+100 Kg','+300 Kg','+500 Kg','+1000 Kg');
+								$index = 0;
+		    				?>
 	    					<?php foreach($row['precios'] as $precio): ?>
-	    							<td>
 	    								<?php 
-	    									if(isset($precio['precio']))
-	    										echo $precio['precio'];
-											else{
+	    									if(isset($precio['precio'])){
+	    										echo "<b>".$rangos[$index++]."</b>";
+	    										echo "<p>Precio: USD ". $precio['precio'] ."</p>";
+	    										echo "<p>Profit: USD ".$precio['profit']."</p>";	
+											}else{
 												echo "-";
 											}
 	    								?>
-	    							</td>
 	    					<?php endforeach;?>
+	    					</td>
 	    					<td>
 	    						<?php 
 	    							foreach($row['recargos'] as $recargo){
