@@ -18,7 +18,7 @@
 		  <div class="form-group <?php if(form_error('clave')!='') echo 'has-error';?>">
 		    <label for="clave" class="col-sm-2 control-label">Clave</label>
 		    <div class="col-sm-4">
-		      <input name="clave" type="text" class="form-control" id="clave" placeholder="Clave" value="<?php if(isset($clave)) echo $clave; ?>" aria-describedby="inputError2Status">
+		      <input name="clave" type="text" class="form-control" id="clave" placeholder="Clave" value="<?php if(isset($clave)) echo $clave;?>" aria-describedby="inputError2Status">
 		      <input name="idrecargo_aereo" type="hidden" value="<?php if(isset($idrecargo_aereo)) echo $idrecargo_aereo; ?>">
 		    </div>
 		  </div>

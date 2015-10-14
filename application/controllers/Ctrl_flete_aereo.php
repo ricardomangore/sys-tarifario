@@ -172,7 +172,7 @@ class CTRL_Flete_Aereo extends OPX_Controller{
 	/**
 	 * Controlador para editar un registro de Aeropuerto
 	 */
-	public function edit($idrecargo_aereo = 0){
+	public function edit($idflete_aereo = 0){
 		$data_sidebar = array(
 			'item_menu_dashboard' => '',
 			'item_menu_fletes_maritimos' => '',
@@ -183,41 +183,14 @@ class CTRL_Flete_Aereo extends OPX_Controller{
 		$data['header']   = $this->load->view('system/header',$data_header,TRUE);	
 		$data_dashboard['sidebar'] = $this->load->view('system/sidebar',$data_sidebar,TRUE);		
 		$data_dashboard['icon_title'] = 'plane';
-		$data_dashboard['header_dashboard'] = 'Flete Aéreo';
-		//Obtienen los datos del registro solicitado
+		$data_dashboard['header_dashboard'] = 'Flete Aéreo';		
+		//Se obtienen los fletes para construir la tabla	
 		try{
-			$result = $this->flete_aereo->get_flete_aereo_by_id($idrecargo_aereo);
-			$data_flete_aereo_form['idregion'] = $result['flete_aereo'][0]['idregion'];
-			$data_flete_aereo_form['idaerolinea'] = $result['flete_aereo'][0]['idaerolinea'];
-			$data_flete_aereo_form['aol'] = $result['aol'][0]['idaeropuerto'];
-			$data_flete_aereo_form['aod'] = $result['aod'][0]['idaeropuerto'];
-			$data_flete_aereo_form['has_via'] = $result['flete_aereo'][0]['via'];
-			$data_flete_aereo_form['via'] = $result['via'];
-			$data_flete_aereo_form['recargos'] = $result['recargos'];
-			$data_flete_aereo_form['vigencia'] = $result['flete_aereo'][0]['vigencia'];
-			$data_flete_aereo_form['minimo'] = $result['flete_aereo'][0]['minimo'];
-			$data_flete_aereo_form['normal'] = $result['flete_aereo'][0]['normal'];
-			$data_flete_aereo_form['profit_base'] = $result['flete_aereo'][0]['profit'];
-       		$data_flete_aereo_form['precio1'] = $result['precios'][0]['precio'];
-			$data_flete_aereo_form['profit45'] = $result['precios'][0]['profit'];
-			$data_flete_aereo_form['precio2'] = $result['precios'][1]['precio'];
-			$data_flete_aereo_form['profit100'] = $result['precios'][1]['profit'];
-			$data_flete_aereo_form['precio3'] = $result['precios'][2]['precio'];
-			$data_flete_aereo_form['profit300'] = $result['precios'][2]['profit'];
-			$data_flete_aereo_form['precio5'] = $result['precios'][3]['precio'];
-			$data_flete_aereo_form['profit500'] = $result['precios'][3]['profit'];
-			$data_flete_aereo_form['precio4'] = $result['precios'][4]['precio'];
-			$data_flete_aereo_form['profit1000'] = $result['precios'][4]['profit'];
+			$data_flete_aereo_form['rows'] = $this->flete_aereo->get_fletes_aereos();
 		}catch(Exception $e){
 			$data_flete_aereo_form['rows'] = NULL;
 		}
-		//Obtiene los valores de la tabla
-		try{
-			$data_flete_aereo_form['rows'] = $this->flete_aereo->get_fletes_aereos(); 
-		}catch(Exception $e){
-			$data_flete_aereo_form['rows'] = NULL;
-		}
-		//Se obtienen los valores para las listas desplegables
+		//Se obtienen los valores para las vistas desplegables
 		try{
 			$data_flete_aereo_form['recargos'] = $this->recargo_aereo->get_recargos_aereos();
 		}catch(Exception $e){
@@ -237,15 +210,53 @@ class CTRL_Flete_Aereo extends OPX_Controller{
 			$data_flete_aereo_form['regiones'] = $this->region->get_regiones();	
 		}catch(exception $e){
 			$data_flete_aereo_form['regiones'] = NULL;
-		}	
-		//Se optienen y limpian los valores enviados desde el formulario
-		
+		}
+		if($idflete_aereo == 0){
+			//Si el id flete aereo es cero se inicializan las variables correspondientes
+			$data_flete_aereo_form['idflete_aereo'] = 0;
+			$data_flete_aereo_form['idflete_aereo_retrieved'] = 0;
+			$data_flete_aereo_form['idregion_retrieved'] = 0;
+			$data_flete_aereo_form['idaerolinea_retrieved'] = 0;
+			$data_flete_aereo_form['aol_retrieved'] = 0;
+			$data_flete_aereo_form['aod_retrieved'] = 0;
+			$data_flete_aereo_form['has_via_retrieved'] = 0;
+			$data_flete_aereo_form['via_retrieved'] = NULL;
+			$data_flete_aereo_form['recargos_retrieved'] = NULL;			
+		}else{
+			//En caso de que If dlete aereo sea diferente de cero se obtienen de la BD los datos del flete seleccionado
+			$data_flete_aereo_form['idflete_aereo'] = $idflete_aereo;
+			$result = $this->flete_aereo->get_flete_aereo_by_id($idflete_aereo);
+			$data_flete_aereo_form['idflete_aereo_retrieved'] = $result['flete_aereo'][0]['idflete_aereo'];
+			$data_flete_aereo_form['idregion_retrieved'] = $result['flete_aereo'][0]['idregion'];
+			$data_flete_aereo_form['idaerolinea_retrieved'] = $result['flete_aereo'][0]['idaerolinea'];
+			$data_flete_aereo_form['aol_retrieved'] = $result['aol'][0]['idaeropuerto'];
+			$data_flete_aereo_form['aod_retrieved'] = $result['aod'][0]['idaeropuerto'];
+			$data_flete_aereo_form['has_via_retrieved'] = $result['flete_aereo'][0]['via'];
+			$data_flete_aereo_form['via_retrieved'] = $result['via'];
+			$data_flete_aereo_form['recargos_retrieved'] = $result['recargos'];
+			$data_flete_aereo_form['vigencia_retrieved'] = $result['flete_aereo'][0]['vigencia'];
+			$data_flete_aereo_form['minimo_retrieved'] = $result['flete_aereo'][0]['minimo'];
+			$data_flete_aereo_form['normal_retrieved'] = $result['flete_aereo'][0]['normal'];
+			$data_flete_aereo_form['profit_base_retrieved'] = $result['flete_aereo'][0]['profit'];
+       		$data_flete_aereo_form['precio1_retrieved'] = $result['precios'][0]['precio'];
+			$data_flete_aereo_form['profit45_retrieved'] = $result['precios'][0]['profit'];
+			$data_flete_aereo_form['precio2_retrieved'] = $result['precios'][1]['precio'];
+			$data_flete_aereo_form['profit100_retrieved'] = $result['precios'][1]['profit'];
+			$data_flete_aereo_form['precio3_retrieved'] = $result['precios'][2]['precio'];
+			$data_flete_aereo_form['profit300_retrieved'] = $result['precios'][2]['profit'];
+			$data_flete_aereo_form['precio5_retrieved'] = $result['precios'][3]['precio'];
+			$data_flete_aereo_form['profit500_retrieved'] = $result['precios'][3]['profit'];
+			$data_flete_aereo_form['precio4_retrieved'] = $result['precios'][4]['precio'];
+			$data_flete_aereo_form['profit1000_retrieved'] = $result['precios'][4]['profit'];			
+		}
+		//Se optienen los datos provenientes del formulario
 		$chkbox_via = xss_clean($this->input->post('chkbox_via'));
 		if($chkbox_via == 'directo')
 			$via_bool = FALSE;
 		else
 			$via_bool = TRUE;
-		$idvias = xss_clean($this->input->post('idvias[]'));
+		$idflete_aereo = xss_clean($this->input->post('idflete_aereo'));
+		$idvias = $this->input->post('idvias[]');
 		$idrecargos = $this->input->post('idrecargos[]');
 		$aol = xss_clean($this->input->post('aol'));
 		$aod = xss_clean($this->input->post('aod'));
@@ -305,14 +316,17 @@ class CTRL_Flete_Aereo extends OPX_Controller{
 			$has_recargos = FALSE;
 		else	
 			$has_recargos = TRUE;
-		//Se validan los valores
-		/*if($via_bool)
-			$this->form_validation->set_rules('idvias','Via','callback_via_check'); */ 
+		/******************************************/
+		//Se carga un mensaje de error personalizado y se validan los datos
 		$this->form_validation->set_message('required', 'Indique un valor para {field}');
-		if($this->form_validation->run() === FALSE){//Los valores no pasaron el test de validación
-			$data_dashboard['content_dashboard'] = $this->load->view('flete_aereo/edit_form',$data_flete_aereo_form,TRUE);
+		if($this->form_validation->run() === FALSE){
+			//Si no hay valores en el formulario o no son validos
+			$data_dashboard['content_dashboard'] = $this->load->view('flete_aereo/edit_form',$data_flete_aereo_form,TRUE); 	
+			$data['content'] = $this->load->view('system/dashboard',$data_dashboard,TRUE);
+			$this->load->view('system/layout',$data);
 		}else{//Los valores aprobaron el test de validación
 			$flete_aereo = array(
+				'idflete_aereo' => $idflete_aereo,
 				'aol' => $aol,
 				'aod' => $aod,
 				'idregion' => $idregion,
@@ -328,19 +342,44 @@ class CTRL_Flete_Aereo extends OPX_Controller{
 				'recargos' => $idrecargos
 			);
 			try{
-				$this->flete_aereo->set_flete_aereo($flete_aereo);
+				$this->flete_aereo->update_flete_aereo($flete_aereo);
 			}catch(Exception $e){
 				echo $e->getCode();
 			}
-		}	
-		try{
-			$data_flete_aereo_form['rows'] = $this->flete_aereo->get_fletes_aereos(); 
-		}catch(Exception $e){
-			$data_flete_aereo_form['rows'] = NULL;
-		}			
-		$data_dashboard['content_dashboard'] = $this->load->view('flete_aereo/edit_form',$data_flete_aereo_form,TRUE); 	
-		$data['content'] = $this->load->view('system/dashboard',$data_dashboard,TRUE);
-		$this->load->view('system/layout',$data);
+			try{
+				$data_flete_aereo_form['rows'] = $this->flete_aereo->get_fletes_aereos();
+			}catch(Exception $e){
+				$data_flete_aereo_form['rows'] = NULL;
+			}			
+			$data_flete_aereo_form['idflete_aereo'] = $idflete_aereo;
+			$result = $this->flete_aereo->get_flete_aereo_by_id($idflete_aereo);
+			$data_flete_aereo_form['idflete_aereo_retrieved'] = $result['flete_aereo'][0]['idflete_aereo'];
+			$data_flete_aereo_form['idregion_retrieved'] = $result['flete_aereo'][0]['idregion'];
+			$data_flete_aereo_form['idaerolinea_retrieved'] = $result['flete_aereo'][0]['idaerolinea'];
+			$data_flete_aereo_form['aol_retrieved'] = $result['aol'][0]['idaeropuerto'];
+			$data_flete_aereo_form['aod_retrieved'] = $result['aod'][0]['idaeropuerto'];
+			$data_flete_aereo_form['has_via_retrieved'] = $result['flete_aereo'][0]['via'];
+			$data_flete_aereo_form['via_retrieved'] = $result['via'];
+			$data_flete_aereo_form['recargos_retrieved'] = $result['recargos'];
+			$data_flete_aereo_form['vigencia_retrieved'] = $result['flete_aereo'][0]['vigencia'];
+			$data_flete_aereo_form['minimo_retrieved'] = $result['flete_aereo'][0]['minimo'];
+			$data_flete_aereo_form['normal_retrieved'] = $result['flete_aereo'][0]['normal'];
+			$data_flete_aereo_form['profit_base_retrieved'] = $result['flete_aereo'][0]['profit'];
+       		$data_flete_aereo_form['precio1_retrieved'] = $result['precios'][0]['precio'];
+			$data_flete_aereo_form['profit45_retrieved'] = $result['precios'][0]['profit'];
+			$data_flete_aereo_form['precio2_retrieved'] = $result['precios'][1]['precio'];
+			$data_flete_aereo_form['profit100_retrieved'] = $result['precios'][1]['profit'];
+			$data_flete_aereo_form['precio3_retrieved'] = $result['precios'][2]['precio'];
+			$data_flete_aereo_form['profit300_retrieved'] = $result['precios'][2]['profit'];
+			$data_flete_aereo_form['precio5_retrieved'] = $result['precios'][3]['precio'];
+			$data_flete_aereo_form['profit500_retrieved'] = $result['precios'][3]['profit'];
+			$data_flete_aereo_form['precio4_retrieved'] = $result['precios'][4]['precio'];
+			$data_flete_aereo_form['profit1000_retrieved'] = $result['precios'][4]['profit'];
+			$data_dashboard['content_dashboard'] = $this->load->view('flete_aereo/edit_form',$data_flete_aereo_form,TRUE); 	
+			$data['content'] = $this->load->view('system/dashboard',$data_dashboard,TRUE);
+			$this->load->view('system/layout',$data);
+		}
+		/* --------Validador-------  */
 	}
 
 	/**
@@ -396,12 +435,12 @@ class CTRL_Flete_Aereo extends OPX_Controller{
 									'descripcion' => $descripcion,
 									'costo' => $costo
 								));
-		}	
-		try{
-			$data_recargo_aereo_form['rows'] = $this->recargo_aereo->get_recargos_aereos(); 
-		}catch(Exception $e){
-			$data_recargo_aereo_form['rows'] = NULL;
-		}			
+			try{
+				$data_recargo_aereo_form['rows'] = $this->recargo_aereo->get_recargos_aereos(); 
+			}catch(Exception $e){
+				$data_recargo_aereo_form['rows'] = NULL;
+			}								
+		}				
 		$data_recargo_aereo_form['aerolineas'] = $this->aerolinea->get_aerolineas();
 		$data_dashboard['content_dashboard'] = $this->load->view('recargo_aereo/edit_form',$data_recargo_aereo_form,TRUE); 	
 		$data['content'] = $this->load->view('system/dashboard',$data_dashboard,TRUE);

@@ -39,7 +39,9 @@ class Flete_Maritimo extends CI_Model{
 				'idnaviera' => $idnaviera,
 				'vigencia'=> $vigencia,
 				'tt' => $tt,
-				'precio' => $precio
+				'precio' => $precio,
+				'tipo' => $tipo,
+				'minimo' => $minimo
 			);
 			$this->db->insert('flete_maritimo', $flete_maritimo );
 			$idflete_maritimo = $this->db->insert_id();

@@ -27,7 +27,7 @@ $(document).ready(function() {
     	}	
     });*/
     
-    $('[name=chkbox_carga]').change(function(event){
+    /*$('[name=chkbox_carga]').change(function(event){
     	var value = $(this).val();
     	if(value == 'contenedor'){
     		$('.select_contenedor').prop('disabled',false);
@@ -41,7 +41,7 @@ $(document).ready(function() {
 			$('[name=peso]').prop('disabled',false);
 			$('[name=volumen]').prop('disabled',false);
     	}
-    });
+    });*/
     
     var opxtable = $('#opxtable').DataTable();
     

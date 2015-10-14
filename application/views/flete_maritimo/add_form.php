@@ -1,6 +1,6 @@
 <div class="row">
 	<ul class="nav nav-pills">
-	  <li role="presentation" class="active"><a href="<?php echo base_url();?>addaflete_maritimo"><i class="fa fa-plus-square"></i> Agregar</a></li>
+	  <li role="presentation" class="active"><a href="<?php echo base_url();?>addflete_maritimo"><i class="fa fa-plus-square"></i> Agregar</a></li>
 	  <li role="presentation"><a href="<?php echo base_url();?>editflete_maritimo/0"><i class="fa fa-pencil"></i> Editar</a></li>
 	  <li role="presentation"><a href="<?php echo base_url();?>deleteflete_maritimo/0"><i class="fa fa-trash"></i> Eliminar</a></li>
 	</ul>
@@ -76,7 +76,7 @@
 				</label>
 			  	<label for="destino" class="col-sm-1 control-label">Via</label>
 			  	<div class="col-sm-2">
-				  	<select class="select_via" data-live-search="true" name="idvias[]" multiple disabled>
+				  	<select class="select_via" data-live-search="true" name="idvias[]" multiple>
 				  		<option value="none">Seleccione los transbordos</option>
 				  		<?php foreach($puertos as $puerto): ?>
 				  			<option value="<?php echo $puerto['idpuerto']?>"><?php echo $puerto['locode'] .' '. $puerto['puerto'];?></option>
@@ -105,18 +105,11 @@
 				  		<?php endforeach; ?>
 				  	</select>
 				</div>
-			  	<label for="precio" class="col-sm-1 control-label">Peso</label>
+			  	<label for="precio" class="col-sm-1 control-label">Mínimo</label>
 			  	<div class="col-sm-2">
 			  		<div class="input-group">
-			  			<input type="text" name="peso" class="form-control" disabled>
-			  			<div class="input-group-addon">Kg</div>
-				    </div>
-				</div>
-			  	<label for="precio" class="col-sm-1 control-label">Volumen</label>
-			  	<div class="col-sm-2">
-			  		<div class="input-group">
-			  			<input type="text" name="peso" class="form-control" disabled>
-			  			<div class="input-group-addon">Kg</div>
+			  			<div class="input-group-addon">$</div>
+			  			<input type="text" name="minimo" class="form-control">
 				    </div>
 				</div>				
 		  </div>

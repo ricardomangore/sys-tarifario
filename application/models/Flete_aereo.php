@@ -26,7 +26,6 @@ class Flete_Aereo extends CI_Model{
 	 * 							'precios' array()	Arreglo con la lsita de precion por rango ofrececidos por la aerolínea
 	 */
 	public function set_flete_aereo( $data ){
-		var_dump($data);
 		extract($data);
 		$this->db->trans_start();
 
@@ -161,6 +160,8 @@ class Flete_Aereo extends CI_Model{
 	 * @param	INT		Identificador del flete aereo
 	 */
 	public function get_flete_aereo_by_id($id_flete_aereo){
+		if($id_flete_aereo == 0)
+			throw new Exception('Error',1062);
 		$this->db->trans_start();
 			$this->db->select('*');
 			$this->db->from('flete_aereo');
@@ -168,9 +169,7 @@ class Flete_Aereo extends CI_Model{
 			$this->db->where('flete_aereo.idflete_aereo',$id_flete_aereo);
 			$query_flete_aereo = $this->db->get();
 			$flete_aereo = $query_flete_aereo->result_array();
-			
-			
-			
+
 			$this->db->select('*');
 			$this->db->from('aeropuerto');
 			$this->db->where('idaeropuerto',$flete_aereo[0]['aol']);
@@ -230,7 +229,45 @@ class Flete_Aereo extends CI_Model{
 	 * @param array		params    Arreglo que contienen los nuevos valores de los campos a actulizar 
 	 */
 	public function update_flete_aereo($flete_aereo = null){
-		extract($flete_areo);
+		log_message('info','Estoy en el Modelo de Flete aereo');
+		extract($flete_aereo);
+		//var_dump($flete_aereo);
+		$this->db->trans_start();
+			//actualiza el catálogo de fletes aéreos con lo snuevos datos
+			$this->db->where('idflete_aereo',$idflete_aereo);
+			$this->db->update('flete_aereo',array(
+				'aol' => $aol,
+				'aod' => $aod,
+				'idregion' => $idregion,
+				'idaerolinea' => $idaerolinea,
+				'vigencia' => $vigencia,
+				'minimo' => $minimo,
+				'normal' => $normal,
+				'profit' => $profit
+			));
+			$this->db->select('*');
+			$this->db->from('intervalo');
+			$this->db->where('idflete_aereo',$idflete_aereo);
+			$query_intervalo = $this->db->get();
+			$result_intervalo = $query_intervalo->result_array();
+
+			$result_intervalos_update = array();
+			for($i = 0; $i < 5; $i++){
+				$result = array_merge($result_intervalo[$i],$intervalos[$i]);
+				array_push($result_intervalos_update,$result);
+			}
+			foreach($result_intervalos_update as $intervalo){
+				$this->db->where('idintervalo',$intervalo['idintervalo']);
+				$this->db->update('intervalo',$intervalo);
+			}
+
+		$this->db->trans_complete();
+		if($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+		}else{
+			$this->db->trans_commit();
+			return TRUE;
+		}
 	}
 	
 	/**
