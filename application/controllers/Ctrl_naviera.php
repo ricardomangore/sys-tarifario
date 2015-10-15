@@ -72,6 +72,7 @@ class CTRL_Naviera extends OPX_Controller{
 		$data_dashboard['sidebar'] = $this->load->view('system/sidebar',$data_sidebar,TRUE);		
 		$data_dashboard['icon_title'] = 'ship';
 		$data_dashboard['header_dashboard'] = 'Navieras';
+		
 		//Obtienen los datos de la región por ID
 		try{
 			$result = $this->naviera->get_naviera_by_id($idnaviera);

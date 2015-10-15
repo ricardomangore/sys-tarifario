@@ -14,7 +14,7 @@
 		</div>
 		<form class="form-horizontal" method="POST" action="<?php echo base_url();?>editaerolinea/0">
 		  <div class="form-group <?php if(form_error('aerolinea')!='') echo 'has-error';?>">
-		    <label for="aerolinea" class="col-sm-2 control-label">Región</label>
+		    <label for="aerolinea" class="col-sm-2 control-label">Aerolínea</label>
 		    <div class="col-sm-4">
 		      <input name="aerolinea" type="text" class="form-control" id="aerolinea" placeholder="Aerolínea" value="<?php if(isset($aerolinea)) echo $aerolinea; ?>" aria-describedby="inputError2Status">
 		      <input name="idaerolinea" type="hidden" class="form-control" value="<?php if(isset($idaerolinea)) echo $idaerolinea; ?>">

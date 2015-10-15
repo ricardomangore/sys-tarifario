@@ -22,7 +22,7 @@
 			  	</select>
 			  	<?php echo form_error('idregion'); ?>
 			</div>		  
-		    <label for="aeropuerto" class="col-sm-1 control-label">* Aerolínea</label>
+		    <label for="aeropuerto" class="col-sm-2 control-label">* Aerolínea</label>
 		    <div class="col-sm-2 <?php if(form_error('idaerolinea')!='') echo 'has-error';?>">
 		      <select class="select_aerolinea" data-live-search='true' name="idaerolinea">
 		      	<option value="none">Seleccione una aerolínea</option>
@@ -45,7 +45,7 @@
 			  	</select>
 			  	<?php echo form_error('aol'); ?>
 			</div>
-		  	<label for="destino" class="col-sm-1 control-label">* Destino</label>
+		  	<label for="destino" class="col-sm-2 control-label">* Destino</label>
 		  	<div class="col-sm-2 <?php if(form_error('aod')!='') echo 'has-error';?>">
 			  	<select class="select_destino" data-live-search="true" name="aod">
 			  		<option value="none">Seleccione un Destino</option>
@@ -86,7 +86,7 @@
 			  		<?php endforeach; ?>
 			  	</select>
 			</div>
-			<label for="vigencia" class="col-sm-1 control-label">* Vigencia</label>
+			<label for="vigencia" class="col-sm-2 control-label">* Vigencia</label>
 		  	<div class="col-sm-2 <?php if(form_error('vigencia')!='') echo 'has-error';?>">
 				<input type="text" name="vigencia" class="form-control" value="<?php echo set_value('vigencia'); ?>">
 				<?php echo form_error('vigencia'); ?>
@@ -101,7 +101,7 @@
 			    </div>
 			    <?php echo form_error('minimo'); ?>
 			</div>
-		  	<label for="normal" class="col-sm-1 control-label">* Normal</label>
+		  	<label for="normal" class="col-sm-2 control-label">* Normal</label>
 		  	<div class="col-sm-2 <?php if(form_error('normal') != '') echo 'has-error'; ?>">
 		  		<div class="input-group">
 		  			<div class="input-group-addon">$</div>
@@ -127,7 +127,7 @@
 					<input type="text" name="precio1" class="form-control" value="<?php echo set_value('precio1');?>">
 				</div>
 			</div>
-		  	<label for="precio1" class="col-sm-1 control-label">Profit +45Kg</label>
+		  	<label for="precio1" class="col-sm-2 control-label">Profit +45Kg</label>
 		  	<div class="col-sm-2 <?php if(form_error('precio1')!='') echo 'has-error';?>">
 		  		<div class="input-group">
 		  			<div class="input-group-addon">$</div>
@@ -144,7 +144,7 @@
 						<input type="text" name="precio2" class="form-control" value="<?php echo set_value('precio2');?>">
 				</div>
 			</div>	
-		  	<label for="precio2" class="col-sm-1 control-label">Profit +100Kg</label>
+		  	<label for="precio2" class="col-sm-2 control-label">Profit +100Kg</label>
 		  	<div class="col-sm-2 <?php if(form_error('precio2')!='') echo 'has-error';?>">
 		  		<div class="input-group">
 		  			<div class="input-group-addon">$</div>
@@ -160,7 +160,7 @@
 						<input type="text" name="precio3" class="form-control" value="<?php echo set_value('precio3');?>">
 				</div>
 			</div>	
-		  	<label for="precio3" class="col-sm-1 control-label">Profit +300Kg</label>
+		  	<label for="precio3" class="col-sm-2 control-label">Profit +300Kg</label>
 		  	<div class="col-sm-2 <?php if(form_error('precio3')!='') echo 'has-error';?>">
 		  		<div class="input-group">
 		  			<div class="input-group-addon">$</div>
@@ -177,7 +177,7 @@
 						<input type="text" name="precio4" class="form-control" value="<?php echo set_value('precio4');?>">
 				</div>
 			</div>
-		  	<label for="precio4" class="col-sm-1 control-label">Profit +500Kg</label>
+		  	<label for="precio4" class="col-sm-2 control-label">Profit +500Kg</label>
 		  	<div class="col-sm-2 <?php if(form_error('precio4')!='') echo 'has-error';?>">
 		  		<div class="input-group">
 		  			<div class="input-group-addon">$</div>
@@ -193,7 +193,7 @@
 						<input type="text" name="precio5" class="form-control" value="<?php echo set_value('precio5');?>">
 				</div>
 			</div>	
-		  	<label for="precio5" class="col-sm-1 control-label">Profit +1000Kg</label>
+		  	<label for="precio5" class="col-sm-2 control-label">Profit +1000Kg</label>
 		  	<div class="col-sm-2 <?php if(form_error('precio5')!='') echo 'has-error';?>">
 		  		<div class="input-group">
 		  			<div class="input-group-addon">$</div>

@@ -38,7 +38,7 @@ class CTRL_Flete_Maritimo extends OPX_Controller{
 		$data_dashboard['sidebar'] = $this->load->view('system/sidebar',$data_sidebar,TRUE);		
 		$data_dashboard['icon_title'] = 'ship';
 		$data_dashboard['header_dashboard'] = 'Flete Marítimo';
-		//Obtiene los valores de la tabla
+		//Obtiene desde la base de datos los renglones para crear la tabla de fletes
 		try{
 			$data_flete_maritimo_form['rows'] = $this->flete_maritimo->get_fletes_maritimos(); 
 		}catch(Exception $e){
@@ -69,80 +69,85 @@ class CTRL_Flete_Maritimo extends OPX_Controller{
 			$data_flete_maritimo_form['regiones'] = $this->region->get_regiones();	
 		}catch(exception $e){
 			$data_flete_maritimo_form['regiones'] = NULL;
-		}	
-		//Se optienen y limpian los valores enviados desde el formulario
-		
-		$chkbox_via = xss_clean($this->input->post('chkbox_via'));
+		}
+		//Bloque para procesar los datos enviados desde el formulario		
+		$pol = xss_clean($this->input->post('pol'));
+		$pod = xss_clean($this->input->post('pod'));
+		$idnaviera = xss_clean($this->input->post('idnaviera'));
+		$idregion = xss_clean($this->input->post('idregion'));
+		$vigencia = xss_clean($this->input->post('vigencia'));
+		$precio = xss_clean($this->input->post('precio'));
+		$profit = xss_clean($this->input->post('profit'));
+		$tt = xss_clean($this->input->post('tt'));
+		$minimo = xss_clean($this->input->post('minimo'));
+		$recargos = $this->input->post('idrecargos[]');
+		$chkbox_via = xss_clean($this->input->post('ckbox_via'));
 		if($chkbox_via == 'directo')
 			$has_vias = FALSE;
 		else
 			$has_vias = TRUE;
+		$vias = $this->input->post('idvias[]');	
+		$tipo_aux = xss_clean($this->input->post('tipo'));
+		if($tipo_aux == 'importacion')
+			$tipo_tarifa = 2;
+		elseif($tipo_aux == 'exportacion')
+			$tipo_tarifa = 1;
 		$chkbox_carga = xss_clean($this->input->post('chkbox_carga'));
-		if($chkbox_carga == 'contenedor'){
-			$idcontenedor_carga = xss_clean($this->input->post('idcontenedor'));
-			$id_arrays = explode('_',$idcontenedor_carga);
-			$idcarga = $id_arrays[1];
+		if($chkbox_carga == 'contenedor')
+			$tipo_carga = 1; //para carga contenerizada
+		elseif($chkbox_carga == 'consolidada')
+			$tipo_carga = 2; //carga sonsolidada
+		$idcontenedor_aux = xss_clean($this->input->post('idcontenedor'));
+		if(isset($tipo_carga))
+			if($tipo_carga == 1){
+				$aux = explode("_", $idcontenedor_aux);
+				$idcontenedor = $aux[0];
+				$idcarga = $aux[1];
+			}else{
+				$idcontenedor = NULL;
+				$idcarga = NULL;
+			}
+		else{
+			$idcontenedor = NULL;
+			$idcarga = NULL;
 		}
-		if($chkbox_carga == 'consolidado'){
-			$peso = xss_clean($this->input->post('peso'));
-			$volumen = xss_clean($this->input->post('volumen'));
-		}
-		$idvias = xss_clean($this->input->post('idvias[]'));
-		$idrecargos = $this->input->post('idrecargos[]');
-		if(empty($idrecargos))
-			$has_recargos = FALSE;
-		else
-			$has_recargos = TRUE;		
-		$pol = xss_clean($this->input->post('pol'));
-		$pod = xss_clean($this->input->post('pod'));
-		$idregion = xss_clean($this->input->post('idregion'));
-		$idnaviera = xss_clean($this->input->post('idnaviera'));
-		$vigencia = xss_clean($this->input->post('vigencia'));
-		$precio = xss_clean($this->input->post('precio'));
-		$tt = xss_clean($this->input->post('tt'));
-
-		//Se validan los valores
-		$this->form_validation->set_rules('idnaviera', 'IDNaviera', 'callback_idnaviera_check');
-		/*$this->form_validation->set_rules('idregion', 'IDregion', 'callback_idregion_check');
-		$this->form_validation->set_rules('pol', 'pol', 'callback_pol_check');
-		$this->form_validation->set_rules('pod', 'pod', 'callback_pod_check');
-		$this->form_validation->set_rules('vigencia', 'Vigencia', 'required');*/
-
-		
-		if($this->form_validation->run() == FALSE){//Los valores no pasaron el test de validación
-			$data_dashboard['content_dashboard'] = $this->load->view('flete_maritimo/add_form',$data_flete_maritimo_form,TRUE);
-		}else{//Los valores aprobaron el test de validación
+						
+		//se efectuan las valkidaciones de los campos
+		$this->form_validation->set_message('required','{field} es requerido');
+		if($this->form_validation->run() === FALSE){
+			$data_dashboard['content_dashboard'] = $this->load->view('flete_maritimo/add_form',$data_flete_maritimo_form,TRUE); 	
+			$data['content'] = $this->load->view('system/dashboard',$data_dashboard,TRUE);
+			$this->load->view('system/layout',$data);			
+		}else{
 			$flete_maritimo = array(
-				'precio' => $precio,
-				'tt'	=> $tt,
-				'has_vias'	=> $has_vias,
-				'has_recargos' => $has_recargos,
-				'vigencia' => $vigencia,
+				'pol' => $pol,
+				'pod' => $pod,
 				'idnaviera' => $idnaviera,
 				'idregion' => $idregion,
-				'pol'	=> $pol,
-				'pod'	=> $pod,
-				'idcarga' => isset($idcarga)? $idcarga : NULL,
-				'vias' => $idvias,
-				'recargos' => $idrecargos,
-				'tipo' => isset($idcarga)? 2 : 1,//carga consolidada
-				'peso' => isset($peso)? $pseo : NULL,
-				'volumen' => isset($volumen)? $volumen : NULL
+				'vigencia' => $vigencia,
+				'precio' => $precio,
+				'profit' => $profit,
+				'tt' => $tt,
+				'minimo' => $minimo,
+				'recargos' => $recargos,
+				'has_vias' => $has_vias,
+				'vias' => $vias,
+				'tipo_tarifa' => $tipo_tarifa,
+				'tipo_carga' => $tipo_carga,
+				'idcontenedor' => $idcontenedor,
+				'idcarga' => $idcarga
 			);
+			var_dump($flete_maritimo);
 			try{
 				$this->flete_maritimo->set_flete_maritimo($flete_maritimo);
 			}catch(Exception $e){
-				echo $e->getCode();
+				
 			}
-		}	
-		try{
-			$data_flete_maritimo_form['rows'] = $this->flete_maritimo->get_fletes_maritimos(); 
-		}catch(Exception $e){
-			$data_flete_maritimo_form['rows'] = NULL;
-		}			
-		$data_dashboard['content_dashboard'] = $this->load->view('flete_maritimo/add_form',$data_flete_maritimo_form,TRUE); 	
-		$data['content'] = $this->load->view('system/dashboard',$data_dashboard,TRUE);
-		$this->load->view('system/layout',$data);
+			$data_dashboard['content_dashboard'] = $this->load->view('flete_maritimo/add_form',$data_flete_maritimo_form,TRUE); 	
+			$data['content'] = $this->load->view('system/dashboard',$data_dashboard,TRUE);
+			$this->load->view('system/layout',$data);
+		}	 	
+
 	}
 	
 	/**
@@ -305,9 +310,9 @@ class CTRL_Flete_Maritimo extends OPX_Controller{
 	 * call_back_aol
 	 */
 	 
-	public function aol_check($str){
+	public function pol_check($str){
 		if($str == 'none'){
-			$this->form_validation->set_message('aol_check', 'Seleccione un Aéropuerto de Origen');
+			$this->form_validation->set_message('pol_check', 'Seleccione un Puerto de Carga');
 			return FALSE;
 		}else{
 			return TRUE;			
@@ -319,9 +324,9 @@ class CTRL_Flete_Maritimo extends OPX_Controller{
 	 * call_back_aod
 	 */
 	 
-	public function aod_check($str){
+	public function pod_check($str){
 		if($str == 'none'){
-			$this->form_validation->set_message('aod_check', 'Seleccione un Aéropuerto de Destino');
+			$this->form_validation->set_message('pod_check', 'Seleccione un Puerto de Descarga');
 			return FALSE;
 		}else{
 			return TRUE;			

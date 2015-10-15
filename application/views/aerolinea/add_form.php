@@ -14,7 +14,7 @@
 		</div>
 		<form class="form-horizontal" method="POST" action="<?php echo base_url();?>addaerolinea">
 		  <div class="form-group <?php if(form_error('region')!='') echo 'has-error';?>">
-		    <label for="region" class="col-sm-2 control-label">Región</label>
+		    <label for="region" class="col-sm-2 control-label">Aerolínea</label>
 		    <div class="col-sm-4">
 		      <input name="aerolinea" type="text" class="form-control" id="aerolinea" placeholder="Aerolínea" value="<?php echo set_value('aerolinea'); ?>" aria-describedby="inputError2Status">
 		    </div>

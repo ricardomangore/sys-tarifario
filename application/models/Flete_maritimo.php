@@ -32,28 +32,28 @@ class Flete_Maritimo extends CI_Model{
 		extract($data);
 		$this->db->trans_start();
 			$flete_maritimo = array(
+				'precio' => $precio,
+				'tt' => $tt,
 				'via' => $has_vias,
+				'idnaviera' => $idnaviera,
+				'idregion' => $idregion,
 				'pol' => $pol,
 				'pod' => $pod,
-				'idregion' => $idregion,
-				'idnaviera' => $idnaviera,
-				'vigencia'=> $vigencia,
-				'tt' => $tt,
-				'precio' => $precio,
-				'tipo' => $tipo,
-				'minimo' => $minimo
+				'vigencia' => $vigencia,
+				'tipo' => $tipo_tarifa,
+				'minimo' => $minimo,
+				'profit' => $profit
 			);
 			$this->db->insert('flete_maritimo', $flete_maritimo );
 			$idflete_maritimo = $this->db->insert_id();
-			var_dump($vias);
 			if($has_vias)
 				foreach($vias as $via){
 					$this->db->insert('via1', array(
-						'idfletemaritimo' => $idflete_maritimo,
+						'idflete_maritimo' => $idflete_maritimo,
 						'idpuerto'  => $via
 					));
 				}
-			if($has_recargos)
+			if(isset($recargos))
 				foreach($recargos as $recargo){
 					$this->db->insert('rel_flete_maritimo_recargo_maritimo', array(
 						'idflete_maritimo' => $idflete_maritimo,
@@ -64,18 +64,18 @@ class Flete_Maritimo extends CI_Model{
 				$this->db->insert('rel_flete_maritimo_carga',array(
 					'idcarga' => $idcarga,
 					'idflete_maritimo' => $idflete_maritimo,
-					'tipo' => $tipo
+					'tipo' => $tipo_carga
 				));				
 			}else{
 				$this->db->insert('carga',array(
-					'peso' => $peso,
-					'volumen' => $volumen
+					'peso' => 1,
+					'volumen' => 1
 				));
 				$idcarga_aux = $this->db->insert_id();
 				$this->db->insert('rel_flete_maritimo_carga',array(
 					'idcarga' => $idcarga_aux,
 					'idflete_maritimo' => $idflete_maritimo,
-					'tipo' => $tipo
+					'tipo' => $tipo_carga
 				));				
 			}
 
@@ -128,7 +128,7 @@ class Flete_Maritimo extends CI_Model{
 				$this->db->select('locode,puerto');
 				$this->db->from('via1');
 				$this->db->join('puerto','via1.idpuerto = puerto.idpuerto','left');
-				$this->db->where('idfletemaritimo', $flete_maritimo_row['idflete_maritimo']);
+				$this->db->where('idflete_maritimo', $flete_maritimo_row['idflete_maritimo']);
 				$query_via = $this->db->get();
 				$query_via->result_array();	
 				
