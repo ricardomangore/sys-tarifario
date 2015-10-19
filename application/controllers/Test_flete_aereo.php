@@ -6,6 +6,7 @@ class Test_flete_aereo extends CI_Controller{
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('flete_aereo');
+		$this->load->model('region');
 	}
 	
 	public function index(){
@@ -20,6 +21,11 @@ class Test_flete_aereo extends CI_Controller{
 		}catch(Exception $e){
 			echo "Error: " . $e->getCode();
 		}	
+	}
+	
+	public function test_is_equal_region(){
+		$result = $this->region->is_equal('region 02');
+		var_dump($result);
 	}
 	
 }

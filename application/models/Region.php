@@ -123,5 +123,24 @@ class Region extends CI_Model{
 		}else{
 			throw new Exception('Error', 6001);
 		}	
-	}	
+	}
+	
+	/**
+	 * is_equal()
+	 * 
+	 * Determina si un par de regiones son iguales
+	 * @param string 	region	El nombre de la región
+	 * @return boolean	TRUE si las regiones son iguales, FALSE si son diferentes 
+	 */	
+	public function is_equal($region){
+		$this->db->select('*');
+		$this->db->from('region');
+		$this->db->where('region',$region);
+		$query = $this->db->get();
+		$result = $query->result_array();
+		if(empty($result))
+			return FALSE;
+		else
+			return TRUE;
+	}	 
 }

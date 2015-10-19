@@ -81,7 +81,8 @@ class CTRL_Flete_Maritimo extends OPX_Controller{
 		$tt = xss_clean($this->input->post('tt'));
 		$minimo = xss_clean($this->input->post('minimo'));
 		$recargos = $this->input->post('idrecargos[]');
-		$chkbox_via = xss_clean($this->input->post('ckbox_via'));
+		$chkbox_via = xss_clean($this->input->post('chkbox_via'));
+		var_dump($chkbox_via);
 		if($chkbox_via == 'directo')
 			$has_vias = FALSE;
 		else
@@ -137,12 +138,17 @@ class CTRL_Flete_Maritimo extends OPX_Controller{
 				'idcontenedor' => $idcontenedor,
 				'idcarga' => $idcarga
 			);
-			var_dump($flete_maritimo);
 			try{
 				$this->flete_maritimo->set_flete_maritimo($flete_maritimo);
 			}catch(Exception $e){
 				
 			}
+			//Obtiene desde la base de datos los renglones para crear la tabla de fletes
+			try{
+				$data_flete_maritimo_form['rows'] = $this->flete_maritimo->get_fletes_maritimos(); 
+			}catch(Exception $e){
+				$data_fletes_aereos_form['rows'] = NULL;
+			}			
 			$data_dashboard['content_dashboard'] = $this->load->view('flete_maritimo/add_form',$data_flete_maritimo_form,TRUE); 	
 			$data['content'] = $this->load->view('system/dashboard',$data_dashboard,TRUE);
 			$this->load->view('system/layout',$data);

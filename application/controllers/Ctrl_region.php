@@ -30,6 +30,7 @@ class CTRL_Region extends OPX_Controller{
 		$data_dashboard['sidebar'] = $this->load->view('system/sidebar',$data_sidebar,TRUE);		
 		$data_dashboard['icon_title'] = 'map';
 		$data_dashboard['header_dashboard'] = 'Regiones';
+		
 		//Obtiene los valores de la tabla
 		try{
 			$data_region_form['rows'] = $this->region->get_regiones(); 
@@ -39,7 +40,7 @@ class CTRL_Region extends OPX_Controller{
 		//Se optienen y limpian los valores enviados desde el formulario
 		$region = xss_clean($this->input->post('region'));
 		//Se validan los valores
-		$this->form_validation->set_rules('region', 'Region', 'required', array('required' => $this->lang->line('error_required_region')));
+		$this->form_validation->set_rules('region', 'Region', 'trim|required', array('required' => $this->lang->line('error_required_region')));
 		if($this->form_validation->run() == FALSE){//Los valores no pasaron el test de validación
 			$data_dashboard['content_dashboard'] = $this->load->view('region/add_form',$data_region_form,TRUE);
 		}else{//Los valores aprobaron el test de validación

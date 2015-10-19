@@ -57,7 +57,7 @@ class Flete_Maritimo extends CI_Model{
 				foreach($recargos as $recargo){
 					$this->db->insert('rel_flete_maritimo_recargo_maritimo', array(
 						'idflete_maritimo' => $idflete_maritimo,
-						'idrecargo_maritmo' => $recargo
+						'idrecargo_maritimo' => $recargo
 					));
 				}
 			if(isset($idcarga)){
@@ -134,7 +134,7 @@ class Flete_Maritimo extends CI_Model{
 				
 				$this->db->select('idrel_flete_maritimo_recargo_maritimo,idflete_maritimo, naviera,clave,descripcion,costo');
 				$this->db->from('rel_flete_maritimo_recargo_maritimo');
-				$this->db->join('recargo_maritimo','rel_flete_maritimo_recargo_maritimo.idrecargo_maritmo = recargo_maritimo.idrecargo_maritimo','left');
+				$this->db->join('recargo_maritimo','rel_flete_maritimo_recargo_maritimo.idrecargo_maritimo = recargo_maritimo.idrecargo_maritimo','left');
 				$this->db->join('naviera','recargo_maritimo.idnaviera = naviera.idnaviera','left');
 				$this->db->join('recargo','recargo_maritimo.idrecargo = recargo.idrecargo','left');
 				$this->db->where('idflete_maritimo', $flete_maritimo_row['idflete_maritimo']);					
