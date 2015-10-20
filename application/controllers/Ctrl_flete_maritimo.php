@@ -82,7 +82,6 @@ class CTRL_Flete_Maritimo extends OPX_Controller{
 		$minimo = xss_clean($this->input->post('minimo'));
 		$recargos = $this->input->post('idrecargos[]');
 		$chkbox_via = xss_clean($this->input->post('chkbox_via'));
-		var_dump($chkbox_via);
 		if($chkbox_via == 'directo')
 			$has_vias = FALSE;
 		else
@@ -113,7 +112,7 @@ class CTRL_Flete_Maritimo extends OPX_Controller{
 			$idcarga = NULL;
 		}
 						
-		//se efectuan las valkidaciones de los campos
+		//se efectuan las validaciones de los campos
 		$this->form_validation->set_message('required','{field} es requerido');
 		if($this->form_validation->run() === FALSE){
 			$data_dashboard['content_dashboard'] = $this->load->view('flete_maritimo/add_form',$data_flete_maritimo_form,TRUE); 	

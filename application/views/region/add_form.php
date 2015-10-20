@@ -9,19 +9,24 @@
 	<div style="height:20px;"></div>
 	<div class="panel panel-default">
 		<div style="height:20px;"></div>
-		<div class="row">
-			<?php echo validation_errors('<div class="col-sm-4 col-sm-offset-2"><div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ','</div></div>'); ?>
-		</div>
+		<?php if(isset($message)): ?>
+			<div class="row">
+				<div class="col-md-4 col-md-offset-2">
+					<div class="alert alert-success"><?php echo $message; ?></div>
+				</div>
+			</div>
+		<?php endif; ?>
 		<form class="form-horizontal" method="POST" action="<?php echo base_url();?>addregion">
 		  <div class="form-group <?php if(form_error('region')!='') echo 'has-error';?>">
 		    <label for="region" class="col-sm-2 control-label">Región</label>
 		    <div class="col-sm-4">
 		      <input name="region" type="text" class="form-control" id="region" placeholder="Región" value="<?php echo set_value('region'); ?>" aria-describedby="inputError2Status">
+		      <?php echo form_error('region'); ?>
 		    </div>
 		  </div>
 		  <div class="form-group">
 		    <div class="col-sm-offset-2 col-sm-10">
-		      <button id="opx_btn_action" type="submit" class="btn btn-primary">Agregar</button>
+		      <button id="opx_btn_action" type="submit" class="btn btn-primary"><i class="fa fa-plus-square"></i> Agregar</button>
 		    </div>			    
 		  </div>
 		</form>

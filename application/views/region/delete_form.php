@@ -9,6 +9,13 @@
 	<div style="height:20px;"></div>
 	<div class="panel panel-default">
 		<div style="height:20px;"></div>
+		<?php if(isset($message)): ?>
+			<div class="row">
+				<div class="col-md-4 col-md-offset-2">
+					<div class="alert alert-success"><?php echo $message; ?></div>
+				</div>
+			</div>
+		<?php endif; ?>			
 		<div class="row">
 			<?php echo validation_errors('<div class="col-sm-4 col-sm-offset-2"><div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ','</div></div>'); ?>
 		</div>
@@ -16,7 +23,8 @@
 		  <div class="form-group <?php if(form_error('region')!='') echo 'has-error';?>">
 		    <label for="region" class="col-sm-2 control-label">Región</label>
 		    <div class="col-sm-4">
-		      <input name="region" type="text" class="form-control" id="region" placeholder="Región" value="<?php if(isset($region)) echo $region; ?>" aria-describedby="inputError2Status">
+		      <input  type="text" class="form-control" id="region" placeholder="Región" value="<?php if(isset($region)) echo $region; ?>" aria-describedby="inputError2Status" disabled>
+		      <input name="region" type="hidden" class="form-control" value="<?php if(isset($region)) echo $region; ?>">
 		      <input name="idregion" type="hidden" class="form-control" value="<?php if(isset($idregion)) echo $idregion; ?>">
 		    </div>
 		  </div>

@@ -46,3 +46,7 @@ $lang['error_required_volumen'] = "El campo Volumen es obligatorio";
 $lang['error_required_tare'] = "El campo Tare es obligatorio";
 $lang['error_required_tipo'] = "El campo Tipo es obligatorio";
 
+
+//Generic Erros
+$lang['error_required'] = "El campo {field} es obligatorio";
+

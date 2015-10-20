@@ -85,46 +85,56 @@ $config = array(
 			'rules' => 'trim|required'
 		)		        
 	),
-'ctrl_flete_maritimo/add' => array(
-        array(
-			'field' => 'pol',
-			'label' => 'Puerto de Carga',
-			'rules' => 'callback_pol_check'
-		),
-        array(
-			'field' => 'pod',
-			'label' => 'Puerto de Descarga',
-			'rules' => 'callback_pod_check'
-		),
+	'ctrl_flete_maritimo/add' => array(
+	        array(
+				'field' => 'pol',
+				'label' => 'Puerto de Carga',
+				'rules' => 'callback_pol_check'
+			),
+	        array(
+				'field' => 'pod',
+				'label' => 'Puerto de Descarga',
+				'rules' => 'callback_pod_check'
+			),
+			array(
+				'field' => 'idnaviera',
+				'label' => 'Naviera',
+				'rules' => 'callback_idnaviera_check'
+			),
+	        array(
+				'field' => 'idregion',
+				'label' => 'Región',
+				'rules' => 'callback_idregion_check'
+			),
+	        array(
+				'field' => 'vigencia',
+				'label' => 'Vigencia',
+				'rules' => 'trim|required'
+			),				
+	        array(
+	            'field' => 'precio',
+	            'label' => 'Precio',
+	            'rules' => 'trim|required'
+	        ),
+	        array(
+				'field' => 'profit',
+				'label' => 'Profit',
+				'rules' => 'trim|required'
+			)	        
+	),
+	
+	'ctrl_region/add' => array(
 		array(
-			'field' => 'idnaviera',
-			'label' => 'Naviera',
-			'rules' => 'callback_idnaviera_check'
-		),
-        array(
-			'field' => 'idregion',
+			'field' => 'region',
 			'label' => 'Región',
-			'rules' => 'callback_idregion_check'
-		),
-        array(
-			'field' => 'vigencia',
-			'label' => 'Vigencia',
-			'rules' => 'trim|required'
-		),				
-        array(
-            'field' => 'precio',
-            'label' => 'Precio',
-            'rules' => 'trim|required'
-        ),
-        array(
-			'field' => 'profit',
-			'label' => 'Profit',
-			'rules' => 'trim|required'
-		)/*,
-        array(
-			'field' => 'profit_base',
-			'label' => 'Profit Base',
-			'rules' => 'trim|required'
-		)*/		        
-	)			
+			'rules' => 'required|min_length[3]|max_length[20]|is_unique[region.region]'
+		)
+	),
+	'ctrl_region/edit' => array(
+		array(
+			'field' => 'region',
+			'label' => 'Región',
+			'rules' => 'required|min_length[3]|max_length[20]'
+		)
+	)	
 );
