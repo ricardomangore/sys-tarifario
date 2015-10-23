@@ -125,7 +125,7 @@ class Flete_Aereo extends CI_Model{
 				$this->db->where('idflete_aereo', $flete_aereo_row['idflete_aereo']);	
 				$query_precios = $this->db->get();
 				
-				$this->db->select('idrel_flete_aereo_recargo_aereo,idflete_aereo, aerolinea,clave,descripcion,costo');
+				$this->db->select('idrel_flete_aereo_recargo_aereo,idflete_aereo, aerolinea,recargo.clave,descripcion,costo');
 				$this->db->from('rel_flete_aereo_recargo_aereo');
 				$this->db->join('recargo_aereo','rel_flete_aereo_recargo_aereo.idrecargo_aereo = recargo_aereo.idrecargo_aereo','left');
 				$this->db->join('aerolinea','recargo_aereo.idaerolinea = aerolinea.idaerolinea','left');

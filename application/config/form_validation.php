@@ -136,5 +136,32 @@ $config = array(
 			'label' => 'Región',
 			'rules' => 'required|min_length[3]|max_length[20]'
 		)
-	)	
+	),
+	'ctrl_contenedor/add' => array(
+		array(
+			'field' => 'pies',
+			'label' => 'Pies',
+			'rules' => 'required|numeric'
+		),
+		array(
+			'field' => 'peso',
+			'label' => 'Max Play Load',
+			'rules' => 'required|numeric'
+		),
+		array(
+			'field' => 'volumen',
+			'label' => 'Volumen',
+			'rules' => 'required|numeric'
+		),
+		array(
+			'field' => 'tipo',
+			'label' => 'Tipo',
+			'rules' => 'required|max_length[20]'
+		),
+		array(
+			'field' => 'tare',
+			'label' => 'Tare',
+			'rules' => 'required|numeric'
+		)				
+	)		
 );

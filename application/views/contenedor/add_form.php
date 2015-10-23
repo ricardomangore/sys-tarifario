@@ -9,20 +9,24 @@
 	<div style="height:20px;"></div>
 	<div class="panel panel-default">
 		<div style="height:20px;"></div>
-		<div class="row">
-			<div class="col-sm-4 col-sm-offset-2">
-			<?php echo validation_errors('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ','</div>'); ?>
+		<?php if(isset($message)): ?>
+			<div class="row">
+				<div class="col-md-4 col-md-offset-2">
+					<div class="alert alert-success"><?php echo $message; ?></div>
+				</div>
 			</div>
-		</div>
+		<?php endif; ?>		
 		<form class="form-horizontal" method="POST" action="<?php echo base_url();?>addcontenedor">
 		  <div class="form-group">
 		    <label for="code" class="col-sm-2 control-label">Tipo</label>
 		    <div class="col-sm-2 <?php if(form_error('tipo')!='') echo 'has-error';?>">
 		      <input name="tipo" type="text" class="form-control" id="tipo" placeholder="Tipo" value="<?php echo set_value('tipo'); ?>" aria-describedby="inputError2Status">
+		      <?php echo form_error('tipo'); ?>
 		    </div>
 		    <label for="code" class="col-sm-2 control-label">Pies</label>
 		    <div class="col-sm-2 <?php if(form_error('pies')!='') echo 'has-error';?>">
 		      <input name="pies" type="text" class="form-control" id="pies" placeholder="Pies" value="<?php echo set_value('pies'); ?>" aria-describedby="inputError2Status">
+		      <?php echo form_error('pies'); ?>
 		    </div>
 		  </div>
 		  
@@ -32,8 +36,9 @@
 		    <div class="col-sm-2 <?php if(form_error('volumen')!='') echo 'has-error';?>">
 		      <div class="input-group">
 		      	<input name="volumen" type="text" class="form-control" id="volumen" placeholder="Volumen" value="<?php echo set_value('volumen'); ?>" aria-describedby="inputError2Status">
-		      	<div class="input-group-addon">m3</div>
+		      	<div class="input-group-addon">m3</div>		 
 		      </div>
+		      <?php echo form_error('volumen'); ?>
 		    </div>
 		    <label for="code" class="col-sm-1 control-label">Max Playload</label>
 		    <div class="col-sm-2 <?php if(form_error('peso')!='') echo 'has-error';?>">
@@ -41,6 +46,7 @@
 		      	<input name="peso" type="text" class="form-control" id="peso" placeholder="Peso" value="<?php echo set_value('peso'); ?>" aria-describedby="inputError2Status">
 		      	<div class="input-group-addon">Kg</div>
 		      </div>
+			  <?php echo form_error('peso'); ?>		      
 		    </div>
 		    <label for="code" class="col-sm-1 control-label">Tare</label>
 		    <div class="col-sm-2 <?php if(form_error('tare')!='') echo 'has-error';?>">
@@ -48,6 +54,7 @@
 		      	<input name="tare" type="text" class="form-control" id="tare" placeholder="Tare" value="<?php echo set_value('tare'); ?>" aria-describedby="inputError2Status">
 		      	<div class="input-group-addon">Kg</div>
 		      </div>
+		      <?php echo form_error('tare'); ?>
 		    </div>		    
 		  </div>
 		  

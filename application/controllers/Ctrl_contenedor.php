@@ -50,11 +50,11 @@ class CTRL_Contenedor extends OPX_Controller{
 		$door_width = xss_clean($this->input->post('door_width'));
 		$door_height = xss_clean($this->input->post('door_height'));
 		//Se validan los valores
-		$this->form_validation->set_rules('pies', 'pies', 'required', array('required' => $this->lang->line('error_required_pies')));
+		/*$this->form_validation->set_rules('pies', 'pies', 'required', array('required' => $this->lang->line('error_required_pies')));
 		$this->form_validation->set_rules('peso', 'Peso', 'required', array('required' => $this->lang->line('error_required_peso')));
 		$this->form_validation->set_rules('volumen', 'Volumen', 'required', array('required' => $this->lang->line('error_required_volumen')));
 		$this->form_validation->set_rules('tare', 'Tare', 'required', array('required' => $this->lang->line('error_required_tare')));
-		$this->form_validation->set_rules('tipo', 'Tipo', 'required', array('required' => $this->lang->line('error_required_tipo')));
+		$this->form_validation->set_rules('tipo', 'Tipo', 'required', array('required' => $this->lang->line('error_required_tipo')));*/
 		if($this->form_validation->run() == FALSE){//Los valores no pasaron el test de validación
 			$data_dashboard['content_dashboard'] = $this->load->view('contenedor/add_form',$data_contenedor_form,TRUE);
 		}else{//Los valores aprobaron el test de validación
@@ -70,6 +70,7 @@ class CTRL_Contenedor extends OPX_Controller{
 													'door_width' => $door_width,
 													'door_height' => $door_height
 													));
+			$data_contenedor_form['message'] = "<i class='fa fa-check'></i> El contenedor fue agregado exitosamente.";
 		}	
 		try{
 			$data_contenedor_form['rows'] = $this->contenedor->get_contenedores(); 
