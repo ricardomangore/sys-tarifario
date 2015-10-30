@@ -9,31 +9,36 @@
 	<div style="height:20px;"></div>
 	<div class="panel panel-default">
 		<div style="height:20px;"></div>
-		<div class="row">
-			<div class="col-sm-4 col-sm-offset-2">
-			<?php echo validation_errors('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ','</div>'); ?>
+		<?php if(isset($message)): ?>
+			<div class="row">
+				<div class="col-md-4 col-md-offset-2">
+					<div class="alert alert-success"><?php echo $message; ?></div>
+				</div>
 			</div>
-		</div>
+		<?php endif; ?>
 		<form class="form-horizontal" method="POST" action="<?php echo base_url();?>addrecargo_maritimo">
 		  <div class="form-group <?php if(form_error('clave')!='') echo 'has-error';?>">
 		    <label for="clave" class="col-sm-2 control-label">Clave</label>
 		    <div class="col-sm-4">
 		      <input name="clave" type="text" class="form-control" id="clave" placeholder="Clave" value="<?php echo set_value('clave'); ?>" aria-describedby="inputError2Status">
+		      <?php echo form_error('clave'); ?>
 		    </div>
 		  </div>
 		  <div class="form-group <?php if(form_error('descripcion')!='') echo 'has-error';?>">
 		    <label for="descripcion" class="col-sm-2 control-label">Descripción</label>
 		    <div class="col-sm-4">
 		      <input name="descripcion" type="text" class="form-control" id="descripcion" placeholder="Descripción" value="<?php echo set_value('descripcion'); ?>" aria-describedby="inputError2Status">
+		      <?php echo form_error('descripcion'); ?>
 		    </div>
 		  </div>
 		  <div class="form-group <?php if(form_error('costo')!='') echo 'has-error';?>">
 		    <label for="costo" class="col-sm-2 control-label">Costo</label>
 		    <div class="col-sm-4">
 		      <input name="costo" type="text" class="form-control" id="costo" placeholder="Costo" value="<?php echo set_value('costo'); ?>" aria-describedby="inputError2Status">
+		      <?php echo form_error('costo'); ?>
 		    </div>
 		  </div>		  		
-		  <div class="form-group <?php if(form_error('idaerolinea')!='') echo 'has-error';?>">
+		  <div class="form-group <?php if(form_error('idnaviera')!='') echo 'has-error';?>">
 		    <label for="aeropuerto" class="col-sm-2 control-label">Naviera</label>
 		    <div class="col-sm-4">
 		      <select class="select_aerolinea" data-live-search='true' name="idnaviera">
@@ -42,6 +47,7 @@
 		      		<option value="<?php echo $naviera['idnaviera'];?>" <?php echo set_select('idnaviera',$naviera['idnaviera']); ?>><?php echo $naviera['naviera'];?></option>
 		    	<?php endforeach; ?>
 		      </select>
+		      <?php echo form_error('idnaviera'); ?>
 		    </div>
 		  </div>
 		  <div class="form-group">

@@ -23,7 +23,7 @@ class Flete_Aereo extends CI_Model{
 	 * 							'vigencia'			Fecha de la vigencia de la tarifa
 	 * 							'minimo'			Valor mínimo para la tafira
 	 * 							'normal'			Indicador
-	 * 							'precios' array()	Arreglo con la lsita de precion por rango ofrececidos por la aerolínea
+	 * 							'precios' array()	Arreglo con la lista de precion por rango ofrececidos por la aerolínea
 	 */
 	public function set_flete_aereo( $data ){
 		extract($data);

@@ -163,5 +163,49 @@ $config = array(
 			'label' => 'Tare',
 			'rules' => 'required|numeric'
 		)				
+	),	
+	'ctrl_recargo_maritimo/add' => array(
+		array(
+			'field' => 'clave',
+			'label' => 'Clave',
+			'rules' => 'trim|required'
+		),
+		array(
+			'field' => 'descripcion',
+			'label' => 'Descripción',
+			'rules' => 'trim'
+		),
+		array(
+			'field' => 'costo',
+			'label' => 'Costo',
+			'rules' => 'trim|required|numeric'
+		),
+		array(
+			'field' => 'idnaviera',
+			'label' => 'Naviera',
+			'rules' => 'callback_naviera_check'
+		)				
+	),
+	'ctrl_recargo_maritimo/edit' => array(
+		array(
+			'field' => 'clave',
+			'label' => 'Clave',
+			'rules' => 'trim|required'
+		),
+		array(
+			'field' => 'descripcion',
+			'label' => 'Descripción',
+			'rules' => 'trim'
+		),
+		array(
+			'field' => 'costo',
+			'label' => 'Costo',
+			'rules' => 'trim|required|numeric'
+		),
+		array(
+			'field' => 'idnaviera',
+			'label' => 'Naviera',
+			'rules' => 'callback_naviera_check'
+		)				
 	)		
 );

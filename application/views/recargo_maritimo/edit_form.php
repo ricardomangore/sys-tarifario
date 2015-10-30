@@ -1,56 +1,62 @@
 <div class="row">
 	<ul class="nav nav-pills">
-	  <li role="presentation"><a href="<?php echo base_url();?>addrecargo_aereo"><i class="fa fa-plus-square"></i> Agregar</a></li>
-	  <li role="presentation"  class="active"><a href="<?php echo base_url();?>editrecargo_aereo/0"><i class="fa fa-pencil"></i> Editar</a></li>
-	  <li role="presentation"><a href="<?php echo base_url();?>deleterecargo_aereo/0"><i class="fa fa-trash"></i> Eliminar</a></li>
+	  <li role="presentation"><a href="<?php echo base_url();?>addarecargo_maritimo"><i class="fa fa-plus-square"></i> Agregar</a></li>
+	  <li role="presentation" class="active"><a href="<?php echo base_url();?>editrecargo_maritimo/0"><i class="fa fa-pencil"></i> Editar</a></li>
+	  <li role="presentation"><a href="<?php echo base_url();?>deleterecargo_maritimo/0"><i class="fa fa-trash"></i> Eliminar</a></li>
 	</ul>
 </div>
 <div class="row">
 	<div style="height:20px;"></div>
 	<div class="panel panel-default">
 		<div style="height:20px;"></div>
-		<div class="row">
-			<div class="col-sm-4 col-sm-offset-2">
-			<?php echo validation_errors('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ','</div>'); ?>
+		<?php if(isset($message)): ?>
+			<div class="row">
+				<div class="col-md-4 col-md-offset-2">
+					<div class="alert alert-success"><?php echo $message; ?></div>
+				</div>
 			</div>
-		</div>
-		<form class="form-horizontal" method="POST" action="<?php echo base_url();?>editrecargo_aereo/0">
+		<?php endif; ?>
+		<form class="form-horizontal" method="POST" action="<?php echo base_url();?>editrecargo_maritimo/<?php if(isset($idrecargo_maritimo)) echo $idrecargo_maritimo; else echo 0;?>">
 		  <div class="form-group <?php if(form_error('clave')!='') echo 'has-error';?>">
 		    <label for="clave" class="col-sm-2 control-label">Clave</label>
 		    <div class="col-sm-4">
-		      <input name="clave" type="text" class="form-control" id="clave" placeholder="Clave" value="<?php if(isset($clave)) echo $clave; ?>" aria-describedby="inputError2Status">
-		      <input name="idrecargo_aereo" type="hidden" value="<?php if(isset($idrecargo_aereo)) echo $idrecargo_aereo; ?>">
+		      <input name="clave" type="text" class="form-control" id="clave" placeholder="Clave" value="<?php if(isset($clave))echo $clave;?>" aria-describedby="inputError2Status">
+		      <input name="idrecargo_maritimo" type="hidden" class="form-control" value="<?php if(isset($idrecargo_maritimo)) echo $idrecargo_maritimo; ?>">
+		      <?php echo form_error('clave'); ?>
 		    </div>
 		  </div>
 		  <div class="form-group <?php if(form_error('descripcion')!='') echo 'has-error';?>">
 		    <label for="descripcion" class="col-sm-2 control-label">Descripción</label>
 		    <div class="col-sm-4">
-		      <input name="descripcion" type="text" class="form-control" id="descripcion" placeholder="Descripción" value="<?php if(isset($descripcion)) echo $descripcion; ?>" aria-describedby="inputError2Status">
+		      <input name="descripcion" type="text" class="form-control" id="descripcion" placeholder="Descripción" value="<?php if(isset($descripcion)) echo $descripcion;?>" aria-describedby="inputError2Status">
+		      <?php echo form_error('descripcion'); ?>
 		    </div>
 		  </div>
 		  <div class="form-group <?php if(form_error('costo')!='') echo 'has-error';?>">
 		    <label for="costo" class="col-sm-2 control-label">Costo</label>
 		    <div class="col-sm-4">
-		      <input name="costo" type="text" class="form-control" id="costo" placeholder="Costo" value="<?php if(isset($costo)) echo $costo; ?>" aria-describedby="inputError2Status">
+		      <input name="costo" type="text" class="form-control" id="costo" placeholder="Costo" value="<?php if(isset($costo)) echo $costo;?>" aria-describedby="inputError2Status">
+		      <?php echo form_error('costo'); ?>
 		    </div>
 		  </div>		  		
-		  <div class="form-group <?php if(form_error('idaerolinea')!='') echo 'has-error';?>">
-		    <label for="aeropuerto" class="col-sm-2 control-label">Aerolínea</label>
+		  <div class="form-group <?php if(form_error('idnaviera')!='') echo 'has-error';?>">
+		    <label for="aeropuerto" class="col-sm-2 control-label">Naviera</label>
 		    <div class="col-sm-4">
-		      <select class="select_aerolinea" data-live-search='true' name="idaerolinea">
-		      	<option value="none">Seleccione una aerolínea</option>
-		      	<?php foreach($aerolineas as $aerolinea):?>
-		      		<?php if(!isset($idaerolinea)): ?>
-		      			<option value="<?php echo $aerolinea['idaerolinea'];?>" <?php echo set_select('idaerolinea',$aerolinea['idaerolinea']); ?>><?php echo $aerolinea['aerolinea'];?></option>
-		      		<?php elseif(isset($idaerolinea)): ?>
-			      		<?php if($aerolinea['idaerolinea'] == $idaerolinea): ?>
-			      			<option value="<?php echo $aerolinea['idaerolinea'];?>" <?php echo set_select('idaerolinea',$aerolinea['idaerolinea'], TRUE); ?>><?php echo $aerolinea['aerolinea'];?></option>
-			      		<?php else: ?>
-			      			<option value="<?php echo $aerolinea['idaerolinea'];?>" <?php echo set_select('idaerolinea',$aerolinea['idaerolinea']); ?>><?php echo $aerolinea['aerolinea'];?></option>
-			      		<?php endif; ?>
-		      		<?php endif; ?>	
+		      <select class="select_aerolinea" data-live-search='true' name="idnaviera">
+		      	<option value="none">Seleccione una naviera</option>
+		      	<?php foreach($navieras as $naviera):?>
+		      		<?php if(!isset($idnaviera)): ?>
+		      			<option value="<?php echo $naviera['idnaviera'];?>" <?php echo set_select('idnaviera',$naviera['idnaviera']); ?>><?php echo $naviera['naviera'];?></option>
+		      		<?php elseif(isset($idnaviera)): ;?>
+		      			<?php if($naviera['idnaviera'] == $idnaviera): ?>
+		      				<option value="<?php echo $naviera['idnaviera'];?>" <?php echo set_select('idnaviera',$naviera['idnaviera'], TRUE); ?>><?php echo $naviera['naviera'];?></option>
+		      			<?php else: ?>
+		      				<option value="<?php echo $naviera['idnaviera'];?>" <?php echo set_select('idnaviera',$naviera['idnaviera']); ?>><?php echo $naviera['naviera'];?></option>
+		      			<?php endif; ?>
+		      		<?php endif; ?>
 		    	<?php endforeach; ?>
 		      </select>
+		      <?php echo form_error('idnaviera'); ?>
 		    </div>
 		  </div>
 		  <div class="form-group">
@@ -61,7 +67,7 @@
 		</form>
 	</div>
 	<div style="height: 30px;"></div>
-	<!-- Catálogo de Aeropuertos -->
+	<!-- Catálogo de Recargos Marítimos -->
 	<table id="opxtable" class="display table table-hover" cellspacing="0" width="100%">
 	    <thead>
 	        <tr>
@@ -87,14 +93,14 @@
 	    		<?php if($rows): ?>
 		    		<?php foreach($rows as $row): ?>
 		    			<tr>
-		    				<td><?php echo $row['idrecargo_aereo'] ?></td>
+		    				<td><?php echo $row['idrecargo_maritimo'] ?></td>
 		    				<td><?php echo $row['clave'] ?></td>
 		    				<td><?php echo $row['costo'] ?></td>
 		    				<td><?php echo $row['descripcion'] ?></td>
-		    				<td><?php echo $row['aerolinea'] ?></td>
+		    				<td><?php echo $row['naviera'] ?></td>
 		    				<td>
-		    					<a href="<?php echo base_url();?>editrecargo_aereo/<?php echo $row['idrecargo_aereo'];?>" class="btn btn-success btn-xs"><i class="fa fa-pencil"></i></a>
-		    					<a href="<?php echo base_url();?>deleterecargo_aereo/<?php echo $row['idrecargo_aereo'];?>" class="btn btn-warning btn-xs"><i class="fa fa-trash"></i></a>
+		    					<a href="<?php echo base_url();?>editrecargo_maritimo/<?php echo $row['idrecargo_maritimo'];?>" class="btn btn-success btn-xs"><i class="fa fa-pencil"></i></a>
+		    					<a href="<?php echo base_url();?>deleterecargo_maritimo/<?php echo $row['idrecargo_maritimo'];?>" class="btn btn-warning btn-xs"><i class="fa fa-trash"></i></a>
 		    				</td>
 		    			</tr>
 		    		<?php endforeach; ?>
