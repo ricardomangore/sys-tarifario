@@ -207,5 +207,12 @@ $config = array(
 			'label' => 'Naviera',
 			'rules' => 'callback_naviera_check'
 		)				
+	),
+	'ctrl_flete_maritimo/add' => array(
+		array(
+			'field' => '',
+			'label' => '',
+			'rules' => ''
+		)
 	)		
 );

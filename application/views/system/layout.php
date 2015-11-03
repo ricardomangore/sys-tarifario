@@ -14,6 +14,7 @@
     <script src="<?php echo base_url(); ?>assets/js/plugins/bootstrap/bootstrap.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/plugins/datatables/extensions/buttons.bootstrap.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/plugins/select/bootstrap-select.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/libraries/opusx.js"></script>

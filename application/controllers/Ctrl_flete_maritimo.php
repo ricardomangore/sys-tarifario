@@ -81,7 +81,7 @@ class CTRL_Flete_Maritimo extends OPX_Controller{
 		$tt = xss_clean($this->input->post('tt'));
 		$minimo = xss_clean($this->input->post('minimo'));
 		$recargos = $this->input->post('idrecargos[]');
-		$chkbox_via = xss_clean($this->input->post('chkbox_via'));
+		$chkbox_via = $this->input->post('chkbox_via');
 		if($chkbox_via == 'directo')
 			$has_vias = FALSE;
 		else

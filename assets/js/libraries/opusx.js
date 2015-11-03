@@ -43,7 +43,11 @@ $(document).ready(function() {
     	}
     });*/
     
-    var opxtable = $('#opxtable').DataTable();
+    var opxtable = $('#opxtable').DataTable({
+    buttons: [
+        'copy', 'excel', 'pdf'
+    ]
+} );
     
 } );
 
