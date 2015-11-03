@@ -68,55 +68,58 @@
 		  
 		  <div class="form-group">
 				<label class="control-label col-md-3">
-				  <input type="radio" name="chkbox_via" id="inlineRadio1" value="directo" checked> Directo
+				  <input type="radio" name="chkbox_via" id="inlineRadio1" value="directo" <?php echo set_radio('chkbox_via','directo',TRUE); ?>> Directo
 				</label>
 				<label class="control-label col-md-2">
-				  <input type="radio" name="chkbox_via" id="inlineRadio2" value="escalas"> Con Escalas
+				  <input type="radio" name="chkbox_via" id="inlineRadio2" value="escalas" <?php echo set_radio('chkbox_via','escalas'); ?>> Con Escalas
 				</label>
 			  	<label for="destino" class="col-sm-1 control-label">Via</label>
-			  	<div class="col-sm-2">
+			  	<div class="col-sm-2 <?php if(form_error('idvias[]')!='') echo 'has-error';?>">
 				  	<select class="select_via" data-live-search="true" name="idvias[]" multiple>
 				  		<option value="none">Seleccione los transbordos</option>
 				  		<?php foreach($puertos as $puerto): ?>
 				  			<option value="<?php echo $puerto['idpuerto']?>" <?php echo set_select('idvias[]',$puerto['idpuerto']);?>><?php echo $puerto['locode'] .' '. $puerto['puerto'];?></option>
 				  		<?php endforeach; ?>
 				  	</select>
+				  	<?php echo form_error('idvias[]'); ?>
 				</div>				
 		  </div>
 		  
 		  <div class="form-group">
 		  	<label class="control-label col-md-3">
-		  		<input type="radio" name="tipo" value="exportacion" checked> Exportación
+		  		<input type="radio" name="tipo" value="exportacion" <?php echo set_radio('tipo','exportacion',TRUE); ?>> Exportación
 		  	</label>
 		  	<label class="control-label col-md-2">
-		  		<input type="radio" name="tipo" value="importacion"> Importación
+		  		<input type="radio" name="tipo" value="importacion" <?php echo set_radio('tipo','importacion'); ?>> Importación
 		  	</label>
 		  </div>		  
 		  <div class="form-group">
 				<label class="control-label col-md-3">
-				  <input type="radio" name="chkbox_carga" id="inlineRadio1" value="contenedor" checked> Contenedor
+				  <input type="radio" name="chkbox_carga" id="inlineRadio1" value="contenedor" <?php echo set_radio('chkbox_carga','contenedor',TRUE); ?>> Contenedor
 				</label>
 				<label class="control-label col-md-2">
-				  <input type="radio" name="chkbox_carga" id="inlineRadio2" value="consolidado"> Consolidado
+				  <input type="radio" name="chkbox_carga" id="inlineRadio2" value="consolidado" <?php echo set_radio('chkbox_carga','consolidado'); ?>> Consolidado
 				</label>				
 		  </div>
 		  
 		  <div class="form-group">
 		  		<label for="contenedor" class="col-sm-2 control-label">Contenedor</label>
-			  	<div class="col-sm-2">
+			  	<div class="col-sm-2 <?php if(form_error('idcontenedor')!='') echo 'has-error';?>">
 				  	<select class="select_contenedor" data-live-search="true" name="idcontenedor">
 				  		<option value="none">Seleccione los transbordos</option>
 				  		<?php foreach($contenedores as $contenedor): ?>
 				  			<option value="<?php echo $contenedor['idcontenedor'].'_'.$contenedor['idcarga']?>" <?php echo set_select('idcontenedor',$contenedor['idcontenedor']); ?>><?php echo $contenedor['tipo'] . "  " . $contenedor['pies'];?></option>
 				  		<?php endforeach; ?>
 				  	</select>
+				  	<?php echo form_error('idcontenedor'); ?>
 				</div>
 			  	<label for="precio" class="col-sm-2 control-label">Mínimo</label>
-			  	<div class="col-sm-2">
+			  	<div class="col-sm-2 <?php if(form_error('minimo')!='') echo 'has-error';?>">
 			  		<div class="input-group">
 			  			<div class="input-group-addon">$</div>
 			  			<input type="text" name="minimo" class="form-control" value="<?php echo set_value('minimo');?>">
 				    </div>
+				    <?php echo form_error('minimo'); ?>
 				</div>				
 		  </div>
 		  			  
@@ -127,7 +130,7 @@
 				<input type="text" name="vigencia" class="form-control" value="<?php echo set_value('vigencia');?>">
 				<?php echo form_error('vigencia');?>
 			</div>
-		  	<label for="minimo" class="col-sm-1 control-label">Tiepo de Transito</label>
+		  	<label for="minimo" class="col-sm-1 control-label">Tiempo de Transito</label>
 		  	<div class="col-sm-2">
 		  		<div class="input-group">
 		  			<input type="text" name="tt" class="form-control" value="<?php echo set_value('tt');?>">
@@ -138,7 +141,7 @@
 		  
 		  <div class="form-group">
 		  	<label for="normal" class="col-sm-2 control-label">Precio</label>
-		  	<div class="col-sm-2">
+		  	<div class="col-sm-2 <?php if(form_error('precio')!='') echo 'has-error';?>">
 		  		<div class="input-group">
 		  			<div class="input-group-addon">$</div>
 						<input type="text" name="precio" class="form-control" value="<?php echo set_value('precio');?>">

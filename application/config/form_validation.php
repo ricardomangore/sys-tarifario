@@ -207,12 +207,32 @@ $config = array(
 			'label' => 'Naviera',
 			'rules' => 'callback_naviera_check'
 		)				
-	),
-	'ctrl_flete_maritimo/add' => array(
+	)/*,
+	'ctrl_add_flete_maritimo/validate' => array(
 		array(
-			'field' => '',
-			'label' => '',
-			'rules' => ''
-		)
-	)		
+			'field' => 'precio',
+			'label' => 'Precio',
+			'rules' => 'trim|required|numeric'
+		),
+		array(
+			'field' => 'pol',
+			'label' => 'POL',
+			'rules' => 'callback_pol_check'
+		),
+		array(
+			'field' => 'pod',
+			'label' => 'POLD',
+			'rules' => 'callback_pod_check'
+		),
+		array(
+			'field' => 'idnaviera',
+			'label' => 'Naviera',
+			'rules' => 'callback_idnaviera_check'
+		),
+		array(
+			'field' => 'idregion',
+			'label' => 'Región',
+			'rules' => 'callback_idregion_check'
+		)			
+	)*/	
 );
