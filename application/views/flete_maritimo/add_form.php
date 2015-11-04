@@ -9,6 +9,13 @@
 	<div style="height:20px;"></div>
 	<div class="panel panel-default">
 		<div style="height:20px;"></div>
+		<?php if(isset($message)): ?>
+			<div class="row">
+				<div class="col-md-4 col-md-offset-2">
+					<div class="alert alert-success"><?php echo $message; ?></div>
+				</div>
+			</div>
+		<?php endif; ?>		
 		<form class="form-horizontal" method="POST" action="<?php echo base_url();?>addflete_maritimo">		
 
 		  <div class="form-group">
@@ -106,9 +113,9 @@
 		  		<label for="contenedor" class="col-sm-2 control-label">Contenedor</label>
 			  	<div class="col-sm-2 <?php if(form_error('idcontenedor')!='') echo 'has-error';?>">
 				  	<select class="select_contenedor" data-live-search="true" name="idcontenedor">
-				  		<option value="none">Seleccione los transbordos</option>
+				  		<option value="none">Seleccione el contenedor</option>
 				  		<?php foreach($contenedores as $contenedor): ?>
-				  			<option value="<?php echo $contenedor['idcontenedor'].'_'.$contenedor['idcarga']?>" <?php echo set_select('idcontenedor',$contenedor['idcontenedor']); ?>><?php echo $contenedor['tipo'] . "  " . $contenedor['pies'];?></option>
+				  			<option value="<?php echo $contenedor['idcontenedor'].'_'.$contenedor['idcarga']?>" <?php echo set_select('idcontenedor',$contenedor['idcontenedor'].'_'.$contenedor['idcarga']); ?>><?php echo $contenedor['tipo'] . "  " . $contenedor['pies'];?></option>
 				  		<?php endforeach; ?>
 				  	</select>
 				  	<?php echo form_error('idcontenedor'); ?>

@@ -40,7 +40,7 @@ class Flete_Maritimo extends CI_Model{
 				'pol' => $pol,
 				'pod' => $pod,
 				'vigencia' => $vigencia,
-				'tipo' => $tipo_tarifa,
+				'tipo' => $tipo_flete,
 				'minimo' => $minimo,
 				'profit' => $profit
 			);
@@ -53,20 +53,20 @@ class Flete_Maritimo extends CI_Model{
 						'idpuerto'  => $via
 					));
 				}
-			if(isset($recargos))
+			if($has_recargos)
 				foreach($recargos as $recargo){
 					$this->db->insert('rel_flete_maritimo_recargo_maritimo', array(
 						'idflete_maritimo' => $idflete_maritimo,
 						'idrecargo_maritimo' => $recargo
 					));
 				}
-			if(isset($idcarga)){
+			if($tipo_carga == 'contenedor'){
 				$this->db->insert('rel_flete_maritimo_carga',array(
 					'idcarga' => $idcarga,
 					'idflete_maritimo' => $idflete_maritimo,
-					'tipo' => $tipo_carga
+					'tipo' => 1
 				));				
-			}else{
+			}elseif($tipo_carga == 'consolidado'){
 				$this->db->insert('carga',array(
 					'peso' => 1,
 					'volumen' => 1
@@ -75,7 +75,7 @@ class Flete_Maritimo extends CI_Model{
 				$this->db->insert('rel_flete_maritimo_carga',array(
 					'idcarga' => $idcarga_aux,
 					'idflete_maritimo' => $idflete_maritimo,
-					'tipo' => $tipo_carga
+					'tipo' => 2
 				));				
 			}
 

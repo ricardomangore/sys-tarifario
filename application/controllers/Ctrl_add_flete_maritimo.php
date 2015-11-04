@@ -91,7 +91,19 @@ class CTRL_Add_Flete_Maritimo extends OPX_Controller{
 			$has_recargos = TRUE;
 		//Se procede a efectuar la consistencia para las demas variables
 		
+		if($tipo_flete == 'exportacion')
+			$tipo_flete = 1;
+		elseif($tipo_flete == 'importacion')
+			$tipo_flete = 2;
 		
+		if($idcontenedor != 'none'){
+			$aux = explode("_", $idcontenedor);
+			$idcontenedor = $aux[0];
+			$idcarga = $aux[1];
+		}elseif($idcontenedor == 'none'){
+			$idcontenedor = NULL;
+			$idcarga = NULL;
+		}
 		
 		//Reglas de validación dinámicas
 		if($tipo_carga == 'contenedor'){
@@ -126,26 +138,80 @@ class CTRL_Add_Flete_Maritimo extends OPX_Controller{
 			$flete_maritimo = array(
 				'precio' => $precio,
 				'tt' => $tt,
-				'via' => $has_vias,
+				'has_vias' => $has_vias,
+				'has_recargos' => $has_recargos,
 				'idnaviera' => $idnaviera,
 				'idregion' => $idregion,
 				'pol' => $pol,
 				'pod' => $pod,
 				'vigencia' => $vigencia,
-				'tipo' => $tipo_flete,
+				'tipo_flete' => $tipo_flete,
+				'tipo_carga' => $tipo_carga,
 				'minimo' => $minimo,
 				'profit' => $profit,
 				'recargos' => $idrecargos,
-				'vias' => $idvias
+				'vias' => $idvias,
+				'idcarga' => $idcarga,
+				'idcontenedor' => $idcontenedor
 				
 			);
-			var_dump($flete_maritimo);
-			//$this->success();
+			try{
+				$this->flete_maritimo->set_flete_maritimo($flete_maritimo);
+				$this->success();
+			}catch(Exception $e){
+				echo $e->getMessage();
+			}
 		}
 	}
 	
 	public function success(){
-		echo "Success";
+		$data_sidebar = array(
+			'item_menu_dashboard' => '',
+			'item_menu_fletes_maritimos' => 'active',
+			'item_menu_fletes_aereos' => '',
+			'item_menu_catalogos' => '',
+		);
+		$data_header['menu'] = $this->load->view('system/menu',NULL,TRUE);
+		$data['header']   = $this->load->view('system/header',$data_header,TRUE);	
+		$data_dashboard['sidebar'] = $this->load->view('system/sidebar',$data_sidebar,TRUE);		
+		$data_dashboard['icon_title'] = 'ship';
+		$data_dashboard['header_dashboard'] = 'Flete Marítimo';
+		//Obtiene desde la base de datos los renglones para crear la tabla de fletes
+		try{
+			$data_flete_maritimo_form['rows'] = $this->flete_maritimo->get_fletes_maritimos(); 
+		}catch(Exception $e){
+			$data_fletes_aereos_form['rows'] = NULL;
+		}
+		//Se obtienen los valores para las listas desplegables
+		try{
+			$data_flete_maritimo_form['contenedores'] = $this->contenedor->get_contenedores();
+		}catch(Exception $e){
+			$data_flete_maritimo_form['contenedores'] = NULL;
+		}
+		try{
+			$data_flete_maritimo_form['recargos'] = $this->recargo_maritimo->get_recargos_maritimos();
+		}catch(Exception $e){
+			$data_flete_maritimo_form['recargos'] = NULL;
+		}
+		try{
+			$data_flete_maritimo_form['puertos'] = $this->puerto->get_puertos();
+		}catch(Exception $e){
+			$data_flete_maritimo_form['puertos'] = NULL;
+		}
+		try{
+			$data_flete_maritimo_form['navieras'] = $this->naviera->get_navieras();
+		}catch(Exception $e){
+			$data_flete_maritimo_form['navieras'] = NULL;
+		}
+		try{
+			$data_flete_maritimo_form['regiones'] = $this->region->get_regiones();	
+		}catch(exception $e){
+			$data_flete_maritimo_form['regiones'] = NULL;
+		}
+		$data_flete_maritimo_form['message'] = 'El flete se agrego exitosamente';
+		$data_dashboard['content_dashboard'] = $this->load->view('flete_maritimo/add_form',$data_flete_maritimo_form,TRUE); 	
+		$data['content'] = $this->load->view('system/dashboard',$data_dashboard,TRUE);
+		$this->load->view('system/layout',$data);
 	}
 
 	/**
